@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const {getEmployeeInfo} = require('../controllers/employeeController')
+const {getEmployeeInfo, createEmployeeInfo} = require('../controllers/employeeController')
 
-router.get('/employee', getEmployeeInfo)
+router.get('/', getEmployeeInfo)
+
+router.post('/', createEmployeeInfo)
 
 module.exports = router
