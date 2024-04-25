@@ -1,11 +1,11 @@
-const mysql = require('mysql2')
+const mysql = require("mysql2");
 
-//make async 
+//make async
 const connectDb = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'alex123',
-    database: 'capstonedb'
-})
+  host: "localhost",
+  user: "root",
+  password: "alex123",
+  database: "capstonedb",
+});
 
-module.exports = connectDb
+module.exports = connectDb;
