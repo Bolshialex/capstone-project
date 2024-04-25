@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const {getEmployeeInfo, createEmployeeInfo} = require('../controllers/employeeController')
+const {getEmployeeInfo, createEmployeeInfo, deleteEmployee,getEmployeeById} = require('../controllers/employeeController')
 
-router.get('/', getEmployeeInfo)
+router.get('/', getEmployeeInfo).post('/', createEmployeeInfo)
 
-router.post('/', createEmployeeInfo)
+//Leave update for later 
 
-module.exports = router
+router.delete('/:id', deleteEmployee).get('/:id', getEmployeeById)
+
+module.exports = router 
