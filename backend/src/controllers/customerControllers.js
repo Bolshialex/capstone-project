@@ -1,19 +1,22 @@
 const connectDb = require("../configs/db");
 const customerSchemas = require("../models/customerModel");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const asyncHandler = require("express-async-handler");
 
 connectDb;
 
-const getCustomerInfo = (req, res) => {
-  customerSchemas.getAllUsers((err, cust) => {
+const getCustomerInfo = asyncHandler(async (req, res) => {
+  customerSchemas.getAllUsers((err, result) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });
       return;
     }
-    res.json(cust);
+    res.json(result);
   });
-};
+});
 
-const createCustomer = (req, res) => {
+const createCustomer = asyncHandler(async (req, res) => {
   const customerInfo = [
     req.body.first_name,
     req.body.last_name,
@@ -30,9 +33,9 @@ const createCustomer = (req, res) => {
     }
     res.json("Customer Created");
   });
-};
+});
 
-const deleteCustomer = (req, res) => {
+const deleteCustomer = asyncHandler(async (req, res) => {
   const customerId = req.params.id;
 
   customerSchemas.deleteCustomer(customerId, (err, result) => {
@@ -43,9 +46,9 @@ const deleteCustomer = (req, res) => {
     }
     res.json(`Customer ${customerId} deleted`);
   });
-};
+});
 
-const getCustomerById = (req, res) => {
+const getCustomerById = asyncHandler(async (req, res) => {
   const customerId = req.params.id;
 
   customerSchemas.getCustomerById(customerId, (err, result) => {
@@ -59,7 +62,7 @@ const getCustomerById = (req, res) => {
     }
     res.json(result[0]);
   });
-};
+});
 
 module.exports = {
   getCustomerInfo,
