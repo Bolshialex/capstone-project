@@ -1,18 +1,15 @@
 const connectDb = require("../configs/db");
 
 const loginSchema = {
-  loginCustomer: (registrationInfo, hashedPassword, callback) => {
-    connectDb.query(
-      `INSERT INTO customer (first_name, last_name, user_name, phone, email, password) VALUES ('${registrationInfo[0]}', '${registrationInfo[1]}', '${registrationInfo[2]}', '${registrationInfo[3]}', '${registrationInfo[4]}', '${hashedPassword}')`,
-      callback
-    );
+  loginCustomer: (email, password, callback) => {
+    connectDb.query(`SELECT FROM employee WHERE email = '${email}'`, callback);
   },
-  findCustomer: (registrationEmail, callback) => {
+  findEmployee: (email, callback) => {
     connectDb.query(
-      `SELECT * FROM employee WHERE email LIKE '${registrationEmail}'`,
+      `SELECT * FROM employee WHERE email LIKE '${email}'`,
       callback
     );
   },
 };
 
-module.exports = registrationSchema;
+module.exports = loginSchema;
