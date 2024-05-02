@@ -19,7 +19,6 @@ const loginEmployee = asyncHandler(async (req, res) => {
     }
     return result;
   });
-  console.log(getEmployee[0]);
 });
 
 module.exports = { loginEmployee };
