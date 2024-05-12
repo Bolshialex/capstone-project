@@ -2,32 +2,14 @@ const connectDb = require("../configs/db");
 
 const loginSchema = {
   loginCustomer: (email, password, callback) => {
-    connectDb.query(`SELECT FROM employee WHERE email = '${email}'`, callback);
+    const query = "SELECT * FROM customer WHERE email = ? AND password = ?";
+    const values = [email, password];
+    connectDb.query(query, values, callback);
   },
   findEmployee: (email, callback) => {
-    if (!validateEmail(email)) {
-      callback(new Error("Invalid email format"));
-      return;
-    }
-
-    connectDb.query(
-      "SELECT * FROM employee WHERE email = ?",
-      [email],
-      (error, results) => {
-        if (error) {
-          callback(error);
-          return;
-        }
-
-        if (results.length === 0) {
-          callback(new Error("Employee not found"));
-          return;
-        }
-
-        // Successful query
-        callback(null, results[0]);
-      }
-    );
+    const query = "SELECT * FROM employee WHERE email LIKE ?";
+    const values = [email];
+    connectDb.query(query, values, callback);
   },
 };
 
