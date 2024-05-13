@@ -32,15 +32,18 @@ Kept # Documentation Update's
   Date: May 12, 2024
   
   Features Added/Updated Since Last Update
+  
     - Updated the MySQL database to only allow employees and admins to sign up and sign in. After some thought, I realized that there's no need for an employee to sign in as a CRM for a company to keep track of its customers.
     - Updated the SQL queries to avoid SQLInjections. I did this by passing the query and its values as parameters. This is so data isn't directly being placed into the SQL query and manipulated to cause damage to the database.
     - Added the main page with a side nav to dynamically show my tables and database info.
        
   Issues Encountered
+  
     - No major issues that caused problems.
     - Minor issues included, getting to know react-router-dom and passing through data.
 
   Lessons Learned
+  
     - From working on making a full-stack project for mid-terms. I was able to learn to implement using the react-router-dom to create paths and navigate through different pages.
     - I also had practice fetching data and creating the proper functions to handle those tasks.
     - Sometimes you have to delete everything and start over if it isn't too much work. I didn't like my react setup so I switched to vite/react. It's not that big of a change but it helps with performance and has other helpful tools.
