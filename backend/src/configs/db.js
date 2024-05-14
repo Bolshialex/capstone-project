@@ -2,10 +2,10 @@ const mysql = require("mysql2");
 
 //make async
 const connectDb = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "alex123",
-  database: "capstonedb",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
 module.exports = connectDb;

@@ -1,24 +1,42 @@
 const connectDb = require("../configs/db");
-const loginSchema = require("../models/loginModel");
+const employeeSchema = require("../models/employeeModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const asyncHandler = require("express-async-handler");
-const { get } = require("../routes/loginRoutes");
 
 connectDb;
 
-const loginEmployee = asyncHandler(async (req, res) => {
+const loginEmployee = (req, res) => {
   const { email, password } = req.body;
 
-  const getEmployee = await loginSchema.findEmployee(email, (err, result) => {
-    //const passwordCompare = await bcrypt.compare(password, result[0].password)
-    if (err) {
+  employeeSchema.getEmployeeByEmail(email, async (err, result) => {
+    try {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      if (result.length > 0) {
+        const employee = result[0];
+        const isPasswordValid = await bcrypt.compare(
+          password,
+          employee.password
+        );
+
+        if (isPasswordValid) {
+          return res.json({
+            id: employee.id,
+            name: employee.first_name,
+            email: employee.email,
+          });
+        }
+      }
+
+      res.status(400).json({ error: "Invalid credentials" });
+    } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "Internal Server Error" });
-      console.log(err);
-      return;
     }
-    return result;
   });
-});
+};
 
 module.exports = { loginEmployee };

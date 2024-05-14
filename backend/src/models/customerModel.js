@@ -8,12 +8,7 @@ const customerSchemas = {
     connectDb.query(
       `SELECT * FROM customer WHERE id = ?`,
       [employeeId],
-      (error, results) => {
-        if (error) {
-          return callback(error);
-        }
-        callback(null, results);
-      }
+      callback
     );
   },
   createCustomer: (customerInfo, callback) => {

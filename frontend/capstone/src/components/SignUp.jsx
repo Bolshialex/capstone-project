@@ -1,9 +1,10 @@
 import React from "react";
+import "../App.css";
 
 function SignUp() {
   return (
-    <section>
-      <div className="container-fluid h-custom card p-5 ">
+    <section className="sign-up vh-100">
+      <div className="h-custom card p-5 ">
         <div className="row d-flex  m-auto justify-content-center align-items-center h-100">
           <div className="col-md-9 col-lg-6 col-xl-5">
             <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">

@@ -1,6 +1,5 @@
 const connectDb = require("../configs/db");
 const employeeSchemas = require("../models/employeeModel");
-const registrationSchema = require("../models/registrationModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
@@ -49,7 +48,7 @@ const createEmployeeInfo = asyncHandler(async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(employeeInfo[5], salt);
   //check if already registered
-  await registrationSchema.findEmployee(employeeInfo[4], (err, result) => {
+  await employeeSchemas.getEmployeeByEmail(employeeInfo[4], (err, result) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });
       console.log(err);
@@ -58,7 +57,7 @@ const createEmployeeInfo = asyncHandler(async (req, res) => {
     if (result == "") {
       //hash password
 
-      registrationSchema.registerEmployee(
+      employeeSchemas.createEmployee(
         newEmployeeInfo,
         hashedPassword,
         (err, result) => {
