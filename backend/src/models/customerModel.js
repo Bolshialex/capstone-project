@@ -1,9 +1,13 @@
 const connectDb = require("../configs/db");
 
 const customerSchemas = {
+  //gets all customers
+  //
   getAllUsers: (callback) => {
     connectDb.query("SELECT * FROM customer", callback);
   },
+  //gets all customers by id
+  //
   getCustomerById: (employeeId, callback) => {
     connectDb.query(
       `SELECT * FROM customer WHERE id = ?`,
@@ -11,15 +15,21 @@ const customerSchemas = {
       callback
     );
   },
+  //creates a customer with a hashed password
+  //
   createCustomer: (customerInfo, callback) => {
     const query = `INSERT INTO customer (first_name, last_name, user_name, phone, email) VALUES (?, ?, ?, ?, ?)`;
     const values = [...customerInfo];
 
     connectDb.query(query, values, callback);
   },
+  //updates a customer
+  //
   updateCustomer: (callback) => {
     //Leave update for later
   },
+  //deletes a customer
+  //
   deleteCustomer: (customerId, callback) => {
     const query = "DELETE FROM customer WHERE id = ?";
     const values = [customerId];

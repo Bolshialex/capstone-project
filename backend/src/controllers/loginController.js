@@ -27,6 +27,7 @@ const loginEmployee = (req, res) => {
             id: employee.id,
             name: employee.first_name,
             email: employee.email,
+            token: generateToken(employee.id),
           });
         }
       }
@@ -37,6 +38,10 @@ const loginEmployee = (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     }
   });
+};
+
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "15d" });
 };
 
 module.exports = { loginEmployee };

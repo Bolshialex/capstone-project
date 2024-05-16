@@ -1,5 +1,5 @@
 const connectDb = require("../configs/db");
-const employeeSchema = require("../models/employeeModel");
+const employeeSchemas = require("../models/employeeModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
@@ -27,10 +27,18 @@ const registerEmployee = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Please add all fields");
   }
+  const newEmployeeInfo = [
+    req.body.first_name,
+    req.body.last_name,
+    req.body.user_name,
+    req.body.phone,
+    req.body.email,
+  ];
+
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(employeeInfo[5], salt);
   //check if already registered
-  await employeeSchema.getEmployeeByEmail(employeeInfo[4], (err, result) => {
+  await employeeSchemas.getEmployeeByEmail(employeeInfo[4], (err, result) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });
       console.log(err);
@@ -39,16 +47,29 @@ const registerEmployee = asyncHandler(async (req, res) => {
     if (result == "") {
       //hash password
 
-      employeeSchema.createEmployee(
-        employeeInfo,
+      employeeSchemas.createEmployee(
+        newEmployeeInfo,
         hashedPassword,
         (err, result) => {
           if (err) {
             res.status(500).json({ error: "Internal Server Error" });
             console.log(err);
             return;
+          } else {
+            employeeSchemas.getEmployeeById(result.insertId, (err, result) => {
+              if (err) {
+                res.status(500).json({ error: "Internal Server Error" });
+                console.log(err);
+                return;
+              }
+              res.status(201).json({
+                id: result[0].id,
+                first_name: result[0].first_name,
+                email: result[0].email,
+                token: generateToken(result[0].id),
+              });
+            });
           }
-          res.status(201).json("Employee Created");
         }
       );
     } else {
@@ -56,5 +77,9 @@ const registerEmployee = asyncHandler(async (req, res) => {
     }
   });
 });
+
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "15d" });
+};
 
 module.exports = { registerEmployee };

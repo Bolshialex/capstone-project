@@ -1,7 +1,5 @@
 const connectDb = require("../configs/db");
 const customerSchemas = require("../models/customerModel");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 
 connectDb;

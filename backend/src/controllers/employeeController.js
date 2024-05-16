@@ -1,6 +1,5 @@
 const connectDb = require("../configs/db");
 const employeeSchemas = require("../models/employeeModel");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 
