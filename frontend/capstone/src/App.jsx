@@ -1,22 +1,23 @@
 import { useState } from "react";
 
 import "./../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUp from "./components/SignUp";
 import Register from "./components/Register";
 import MainPage from "./components/MainPage";
+import PrivateRoutes from "./utils/PrivateRoutes";
 
 import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<SignUp />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/main" element={<MainPage />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 

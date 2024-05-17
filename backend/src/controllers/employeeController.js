@@ -16,75 +16,88 @@ const getEmployeeInfo = (req, res) => {
 };
 
 const createEmployeeInfo = asyncHandler(async (req, res) => {
-  const employeeInfo = [
-    req.body.first_name,
-    req.body.last_name,
-    req.body.user_name,
-    req.body.phone,
-    req.body.email,
-    req.body.password,
-  ];
+  if (req.user.is_admin) {
+    const employeeInfo = [
+      req.body.first_name,
+      req.body.last_name,
+      req.body.user_name,
+      req.body.phone,
+      req.body.email,
+      req.body.password,
+    ];
 
-  if (
-    !employeeInfo[0] ||
-    !employeeInfo[1] ||
-    !employeeInfo[2] ||
-    !employeeInfo[3] ||
-    !employeeInfo[4] ||
-    !employeeInfo[5]
-  ) {
-    res.status(400);
-    throw new Error("Please add all fields");
-  }
-  const newEmployeeInfo = [
-    req.body.first_name,
-    req.body.last_name,
-    req.body.user_name,
-    req.body.phone,
-    req.body.email,
-  ];
-
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(employeeInfo[5], salt);
-  //check if already registered
-  await employeeSchemas.getEmployeeByEmail(employeeInfo[4], (err, result) => {
-    if (err) {
-      res.status(500).json({ error: "Internal Server Error" });
-      console.log(err);
-      return;
+    if (
+      !employeeInfo[0] ||
+      !employeeInfo[1] ||
+      !employeeInfo[2] ||
+      !employeeInfo[3] ||
+      !employeeInfo[4] ||
+      !employeeInfo[5]
+    ) {
+      res.status(400);
+      throw new Error("Please add all fields");
     }
-    if (result == "") {
-      //hash password
+    const newEmployeeInfo = [
+      req.body.first_name,
+      req.body.last_name,
+      req.body.user_name,
+      req.body.phone,
+      req.body.email,
+    ];
 
-      employeeSchemas.createEmployee(
-        newEmployeeInfo,
-        hashedPassword,
-        (err, result) => {
-          if (err) {
-            res.status(500).json({ error: "Internal Server Error" });
-            console.log(err);
-            return;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(employeeInfo[5], salt);
+    //check if already registered
+    await employeeSchemas.getEmployeeByEmail(employeeInfo[4], (err, result) => {
+      if (err) {
+        res.status(500).json({ error: "Internal Server Error" });
+        console.log(err);
+        return;
+      }
+      if (result == "") {
+        //hash password
+
+        employeeSchemas.createEmployee(
+          newEmployeeInfo,
+          hashedPassword,
+          (err, result) => {
+            if (err) {
+              res.status(500).json({ error: "Internal Server Error" });
+              console.log(err);
+              return;
+            }
+            res.status(201).json("Employee Created");
           }
-          res.status(201).json("Employee Created");
-        }
-      );
-    } else {
-      res.status(400).json({ error: "Employee already exists" });
-    }
-  });
+        );
+      } else {
+        res.status(400).json({ error: "Employee already exists" });
+      }
+    });
+  } else {
+    res
+      .status(403)
+      .json({ error: "You do not have permission to make this change" });
+  }
 });
 
 const deleteEmployee = (req, res) => {
-  const employeeId = req.params.id;
+  console.log(req.user);
+  if (req.user.is_admin) {
+    const employeeId = req.params.id;
 
-  employeeSchemas.deleteEmployee(employeeId, (err, result) => {
-    if (err) {
-      res.status(500).json({ error: "Internal Server Error" });
-      console.log(err);
-      return;
-    }
-    res.json(`Employee ${employeeId} deleted`);
-  });
+    employeeSchemas.deleteEmployee(employeeId, (err, result) => {
+      if (err) {
+        res.status(500).json({ error: "Internal Server Error" });
+        console.log(err);
+        return;
+      }
+      res.json(`Employee ${employeeId} deleted`);
+    });
+  } else {
+    res
+      .status(403)
+      .json({ error: "You do not have permission to make this change" });
+  }
 };
 
 const getEmployeeById = (req, res) => {

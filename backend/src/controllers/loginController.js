@@ -27,7 +27,8 @@ const loginEmployee = (req, res) => {
             id: employee.id,
             name: employee.first_name,
             email: employee.email,
-            token: generateToken(employee.id),
+            ii_admin: employee.is_admin,
+            token: generateToken(employee.id, employee.is_admin),
           });
         }
       }
@@ -40,8 +41,10 @@ const loginEmployee = (req, res) => {
   });
 };
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "15d" });
+const generateToken = (id, is_admin) => {
+  return jwt.sign({ id: id, is_admin: is_admin }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
 };
 
 module.exports = { loginEmployee };

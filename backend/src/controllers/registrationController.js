@@ -66,7 +66,8 @@ const registerEmployee = asyncHandler(async (req, res) => {
                 id: result[0].id,
                 first_name: result[0].first_name,
                 email: result[0].email,
-                token: generateToken(result[0].id),
+                is_admin: employee.is_admin,
+                token: generateToken(employee.id, employee.is_admin),
               });
             });
           }
@@ -78,8 +79,10 @@ const registerEmployee = asyncHandler(async (req, res) => {
   });
 });
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "15d" });
+const generateToken = (id, is_admin) => {
+  return jwt.sign({ id: id, is_admin: is_admin }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
 };
 
 module.exports = { registerEmployee };

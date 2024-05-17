@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import "../App.css";
+import loginFunction from "../api/auth/loginFunction";
 
 function SignUp() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await loginFunction.login(email, password);
+    } catch (error) {
+      console.log(error);
+      alert("login unsuccessful");
+    }
+  };
+
   return (
     <section className="sign-up vh-100">
       <div className="h-custom card p-5 ">
@@ -17,10 +32,12 @@ function SignUp() {
             />
           </div>
           <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div data-mdb-input-init className="form-outline mb-4">
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   id="form3Example3"
                   className="form-control form-control-lg"
                   placeholder="Enter a valid email address"
@@ -34,6 +51,8 @@ function SignUp() {
                 <input
                   type="password"
                   id="form3Example4"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="form-control form-control-lg"
                   placeholder="Enter password"
                 />
@@ -50,18 +69,19 @@ function SignUp() {
 
               <div className="text-center text-lg-start mt-4 pt-2">
                 <button
-                  type="button"
+                  type="submit"
                   data-mdb-button-init
                   data-mdb-ripple-init
                   className="btn btn-primary btn-lg"
                 >
                   Login
                 </button>
+
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Don't have an account?{" "}
-                  <a href="#!" className="link-danger">
+                  <Link to={"/register"} className="link-danger">
                     Register
-                  </a>
+                  </Link>
                 </p>
               </div>
             </form>
