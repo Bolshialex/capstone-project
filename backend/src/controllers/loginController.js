@@ -27,7 +27,7 @@ const loginEmployee = (req, res) => {
             id: employee.id,
             name: employee.first_name,
             email: employee.email,
-            ii_admin: employee.is_admin,
+            is_admin: employee.is_admin,
             token: generateToken(employee.id, employee.is_admin),
           });
         }

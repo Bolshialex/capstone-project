@@ -1,19 +1,69 @@
-import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
+
+import loginFunction from "../api/loginFunction";
+import useAuth from "../hooks/useAuth";
+import axios from "axios";
+
+const API_URL = "http://localhost:3000";
 import "../App.css";
-import loginFunction from "../api/auth/loginFunction";
 
 function SignUp() {
+  const { setAuth } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  //const from = location.state?.from?.pathname || "/main";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const userRef = useRef();
+  const errRef = useRef();
+
+  const [err, setErr] = useState("");
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    setErr("");
+  }, [email, password]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const response = await axios.post(
+        `${API_URL}/login`,
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            withCredentials: true,
+          },
+        }
+      );
       await loginFunction.login(email, password);
+
+      const accessToken = response?.data?.token;
+      const admin = response?.data?.is_admin;
+
+      setAuth({ email, password, admin, accessToken });
+      setEmail("");
+      setPassword("");
+      navigate("/main");
     } catch (error) {
-      console.log(error);
-      alert("login unsuccessful");
+      if (!error?.response) {
+        setErr("No Server Response");
+      } else if (error.response?.status === 400) {
+        setErr("Incorrect Email or Password");
+      } else {
+        setErr("Login Failed");
+      }
     }
   };
 
@@ -34,20 +84,33 @@ function SignUp() {
           <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
             <form onSubmit={handleSubmit}>
               <div data-mdb-input-init className="form-outline mb-4">
+                {err == "" ? (
+                  <div></div>
+                ) : (
+                  <div className="card text-center p-2 bg-danger text-white ">
+                    {err}
+                  </div>
+                )}
+                <label className="form-label" htmlFor="form3Example3">
+                  Email address
+                </label>
                 <input
                   type="email"
+                  ref={userRef}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   id="form3Example3"
                   className="form-control form-control-lg"
                   placeholder="Enter a valid email address"
+                  autoComplete="off"
+                  required
                 />
-                <label className="form-label" htmlFor="form3Example3">
-                  Email address
-                </label>
               </div>
 
               <div data-mdb-input-init className="form-outline mb-3">
+                <label className="form-label" htmlFor="form3Example4">
+                  Password
+                </label>
                 <input
                   type="password"
                   id="form3Example4"
@@ -55,10 +118,8 @@ function SignUp() {
                   onChange={(e) => setPassword(e.target.value)}
                   className="form-control form-control-lg"
                   placeholder="Enter password"
+                  required
                 />
-                <label className="form-label" htmlFor="form3Example4">
-                  Password
-                </label>
               </div>
 
               <div className="d-flex justify-content-between align-items-center">
@@ -76,15 +137,14 @@ function SignUp() {
                 >
                   Login
                 </button>
-
-                <p className="small fw-bold mt-2 pt-1 mb-0">
-                  Don't have an account?{" "}
-                  <Link to={"/register"} className="link-danger">
-                    Register
-                  </Link>
-                </p>
               </div>
             </form>
+            <p className="small fw-bold mt-2 pt-1 mb-0">
+              Don't have an account?{" "}
+              <Link to={"/register"} className="link-danger">
+                Register
+              </Link>
+            </p>
           </div>
         </div>
       </div>

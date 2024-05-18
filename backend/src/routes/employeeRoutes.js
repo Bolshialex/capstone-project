@@ -8,9 +8,7 @@ const {
   getEmployeeById,
 } = require("../controllers/employeeController");
 
-router
-  .get("/", checkToken, getEmployeeInfo)
-  .post("/", checkToken, createEmployeeInfo);
+router.get("/", getEmployeeInfo).post("/", checkToken, createEmployeeInfo);
 
 //Leave update for later
 

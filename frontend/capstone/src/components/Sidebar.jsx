@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { BsGrid1X2Fill, BsPeopleFill, BsFillGearFill } from "react-icons/bs";
 import { FaPeopleGroup } from "react-icons/fa6";
-
+import { IoIosSettings } from "react-icons/io";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaChartPie, FaPeopleArrows } from "react-icons/fa";
 
@@ -22,29 +23,34 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
 
       <ul className="sidebar-list">
         <li className="sidebar-list-item">
-          <a href="">
+          <a>
             <BsGrid1X2Fill className="icon" /> Dashboard
           </a>
         </li>
 
         <li className="sidebar-list-item">
-          <a href="">
+          <Link to={"/employees"}>
             <BsPeopleFill className="icon" /> Employees
-          </a>
+          </Link>
         </li>
         <li className="sidebar-list-item">
-          <a href="">
+          <a>
             <FaPeopleArrows className="icon" /> Customers
           </a>
         </li>
         <li className="sidebar-list-item">
-          <a href="">
+          <a>
             <FaPeopleGroup className="icon" /> Meetings
           </a>
         </li>
         <li className="sidebar-list-item">
-          <a href="">
+          <a>
             <AiOutlineMail className="icon" /> Messages
+          </a>
+        </li>
+        <li className="sidebar-list-item">
+          <a>
+            <IoIosSettings className="icon" /> Settings
           </a>
         </li>
       </ul>

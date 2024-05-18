@@ -1,11 +1,11 @@
 import React from "react";
-import Header from "./Header";
+import Header from "../components/Header";
 import "../App.css";
-import Sidebar from "./Sidebar";
-import Home from "./Home";
+import Sidebar from "../components/Sidebar";
 import { useState } from "react";
+import EmployeesTable from "../components/EmployeesTable";
 
-function MainPage() {
+function EmployeesPage() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
   const OpenSidebar = () => {
@@ -19,9 +19,9 @@ function MainPage() {
         openSidebarToggle={openSidebarToggle}
         OpenSidebar={OpenSidebar}
       />
-      <Home />
+      <EmployeesTable />
     </div>
   );
 }
 
-export default MainPage;
+export default EmployeesPage;
