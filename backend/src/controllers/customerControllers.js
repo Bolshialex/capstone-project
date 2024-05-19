@@ -35,7 +35,6 @@ const createCustomer = asyncHandler(async (req, res) => {
 
 const deleteCustomer = asyncHandler(async (req, res) => {
   const customerId = req.params.id;
-
   customerSchemas.deleteCustomer(customerId, (err, result) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });
@@ -48,7 +47,6 @@ const deleteCustomer = asyncHandler(async (req, res) => {
 
 const getCustomerById = asyncHandler(async (req, res) => {
   const customerId = req.params.id;
-
   customerSchemas.getCustomerById(customerId, (err, result) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });

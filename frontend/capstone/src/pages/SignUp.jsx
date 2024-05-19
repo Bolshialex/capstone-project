@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import loginFunction from "../api/loginFunction";
 import useAuth from "../hooks/useAuth";
@@ -12,8 +12,6 @@ function SignUp() {
   const { setAuth } = useAuth();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  //const from = location.state?.from?.pathname || "/main";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,25 +32,16 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${API_URL}/login`,
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            withCredentials: true,
-          },
-        }
-      );
-      await loginFunction.login(email, password);
+      const response = await axios.post(`${API_URL}/login`, {
+        email,
+        password,
+      });
+      //await loginFunction.login(email, password);
 
       const accessToken = response?.data?.token;
       const admin = response?.data?.is_admin;
-
       setAuth({ email, password, admin, accessToken });
+      //setCookie("accessToken", accessToken, 1);
       setEmail("");
       setPassword("");
       navigate("/main");

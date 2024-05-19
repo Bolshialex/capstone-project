@@ -2,8 +2,13 @@ import axios from "axios";
 const API_URL = "http://localhost:3000";
 
 function getToken() {
-  const authorizationHeader = localStorage.getItem("Authorization");
-  const token = authorizationHeader ? authorizationHeader.split(" ")[1] : null;
+  const cookieString = document.cookie;
+  const cookieArray = cookieString.split("; ");
+  const accessTokenCookie = cookieArray.find((cookie) =>
+    cookie.startsWith("accessToken=")
+  );
+  const token = accessTokenCookie ? accessTokenCookie.split("=")[1] : null;
+  console.log(token);
   return token;
 }
 

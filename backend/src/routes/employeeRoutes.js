@@ -1,19 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const { checkToken } = require("../middlewares/tokenValidation");
-const {
-  getEmployeeInfo,
-  createEmployeeInfo,
-  deleteEmployee,
-  getEmployeeById,
-} = require("../controllers/employeeController");
+const userControllers = require("../controllers/userControllers");
 
-router.get("/", getEmployeeInfo).post("/", checkToken, createEmployeeInfo);
+router
+  .get("/", checkToken, userControllers.getEmployee)
+  .post("/", checkToken, userControllers.createEmployee);
 
 //Leave update for later
 
 router
-  .delete("/:id", checkToken, deleteEmployee)
-  .get("/:id", checkToken, getEmployeeById);
+  .delete("/:id", checkToken, userControllers.deleteEmployee)
+  .get("/:id", checkToken, userControllers.getEmployeeById);
 
 module.exports = router;

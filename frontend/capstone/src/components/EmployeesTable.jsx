@@ -6,16 +6,17 @@ import useAuth from "../hooks/useAuth";
 import { CiEdit } from "react-icons/ci";
 
 function EmployeesTable() {
+  const auth = useAuth();
   const [employees, setEmployees] = useState();
 
   useEffect(() => {
     employeeFunctions
-      .fetchAllEmployees(useAuth.accessToken)
+      .fetchAllEmployees(auth.auth.accessToken)
       .then((employees) => {
         setEmployees(employees);
       })
       .catch((error) => console.error(error));
-  });
+  }, []);
 
   return (
     <main className="main-container">

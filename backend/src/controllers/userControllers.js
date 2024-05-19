@@ -1,11 +1,68 @@
 const connectDb = require("../configs/db");
+const customerSchemas = require("../models/customerModel");
 const employeeSchemas = require("../models/employeeModel");
-const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
 
 connectDb;
 
-const getEmployeeInfo = (req, res) => {
+const getCustomer = asyncHandler(async (req, res) => {
+  customerSchemas.getAllUsers((err, result) => {
+    if (err) {
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+    res.json(result);
+  });
+});
+
+const createCustomer = asyncHandler(async (req, res) => {
+  const customerInfo = [
+    req.body.first_name,
+    req.body.last_name,
+    req.body.user_name,
+    req.body.phone,
+    req.body.email,
+    req.body.password,
+  ];
+  customerSchemas.createCustomer(customerInfo, (err, result) => {
+    if (err) {
+      res.status(500).json({ error: "Internal Server Error" });
+      console.log(err);
+      return;
+    }
+    res.json("Customer Created");
+  });
+});
+
+const deleteCustomer = asyncHandler(async (req, res) => {
+  const customerId = req.params.id;
+  customerSchemas.deleteCustomer(customerId, (err, result) => {
+    if (err) {
+      res.status(500).json({ error: "Internal Server Error" });
+      console.log(err);
+      return;
+    }
+    res.json(`Customer ${customerId} deleted`);
+  });
+});
+
+const getCustomerById = asyncHandler(async (req, res) => {
+  const customerId = req.params.id;
+  customerSchemas.getCustomerById(customerId, (err, result) => {
+    if (err) {
+      res.status(500).json({ error: "Internal Server Error" });
+      console.log(err);
+      return;
+    } else if (result == "") {
+      res.json(`This customer does not exist`);
+      return;
+    }
+    res.json(result[0]);
+  });
+});
+
+const getEmployee = asyncHandler(async (req, res) => {
   employeeSchemas.getAllUsers((err, emp) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });
@@ -13,9 +70,9 @@ const getEmployeeInfo = (req, res) => {
     }
     res.json(emp);
   });
-};
+});
 
-const createEmployeeInfo = asyncHandler(async (req, res) => {
+const createEmployee = asyncHandler(async (req, res) => {
   if (req.user.is_admin) {
     const employeeInfo = [
       req.body.first_name,
@@ -79,7 +136,7 @@ const createEmployeeInfo = asyncHandler(async (req, res) => {
   }
 });
 
-const deleteEmployee = (req, res) => {
+const deleteEmployee = asyncHandler(async (req, res) => {
   console.log(req.user);
   if (req.user.is_admin) {
     const employeeId = req.params.id;
@@ -96,9 +153,9 @@ const deleteEmployee = (req, res) => {
       .status(403)
       .json({ error: "You do not have permission to make this change" });
   }
-};
+});
 
-const getEmployeeById = (req, res) => {
+const getEmployeeById = asyncHandler(async (req, res) => {
   const employeeId = req.params.id;
   employeeSchemas.getEmployeeById(employeeId, (err, result) => {
     if (err) {
@@ -111,11 +168,15 @@ const getEmployeeById = (req, res) => {
     }
     res.json(result[0]);
   });
-};
+});
 
 module.exports = {
-  getEmployeeInfo,
-  createEmployeeInfo,
+  getEmployee,
+  createEmployee,
   deleteEmployee,
   getEmployeeById,
+  getCustomer,
+  createCustomer,
+  deleteCustomer,
+  getCustomerById,
 };

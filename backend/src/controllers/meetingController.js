@@ -5,7 +5,6 @@ connectDb;
 
 const createMeeting = (req, res) => {
   const meetingInfo = req.body.m_time;
-
   meetingSchemas.createMeeting(meetingInfo, (err, result) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });

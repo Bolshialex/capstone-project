@@ -1,21 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const { checkToken } = require("../middlewares/tokenValidation");
-const {
-  getCustomerInfo,
-  createCustomer,
-  deleteCustomer,
-  getCustomerById,
-} = require("../controllers/customerControllers");
+
+const userControllers = require("../controllers/userControllers");
 
 router
-  .get("/", checkToken, getCustomerInfo)
-  .post("/", checkToken, createCustomer);
+  .get("/", checkToken, userControllers.getCustomer)
+  .post("/", checkToken, userControllers.createCustomer);
 
 //Leave update for later
 
 router
-  .delete("/:id", checkToken, deleteCustomer)
-  .get("/:id", checkToken, getCustomerById);
+  .delete("/:id", checkToken, userControllers.deleteCustomer)
+  .get("/:id", checkToken, userControllers.getCustomerById);
 
 module.exports = router;
