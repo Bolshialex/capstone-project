@@ -22,22 +22,21 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
       </div>
 
       <ul className="sidebar-list">
-        <li className="sidebar-list-item">
-          <Link to={"/main"}>
+        <Link to={"/main"}>
+          <li className="sidebar-list-item">
             <BsGrid1X2Fill className="icon" /> Dashboard
-          </Link>
-        </li>
-
-        <li className="sidebar-list-item">
-          <Link to={"/employees"}>
+          </li>
+        </Link>
+        <Link to={"/employees"}>
+          <li className="sidebar-list-item">
             <BsPeopleFill className="icon" /> Employees
-          </Link>
-        </li>
-        <li className="sidebar-list-item">
-          <a>
+          </li>
+        </Link>
+        <Link to={"/customers"}>
+          <li className="sidebar-list-item">
             <FaPeopleArrows className="icon" /> Customers
-          </a>
-        </li>
+          </li>
+        </Link>
         <li className="sidebar-list-item">
           <a>
             <FaPeopleGroup className="icon" /> Meetings

@@ -15,9 +15,13 @@ function getToken() {
 //   return response.json();
 // }
 
-function fetchAllCustomers() {
+function fetchAllCustomers(token) {
   return axios
-    .get(`${API_URL}/customer`)
+    .get(`${API_URL}/customer`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error fetching customers:", error);

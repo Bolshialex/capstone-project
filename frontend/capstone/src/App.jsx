@@ -1,6 +1,11 @@
 import { useState } from "react";
 import "./../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
 import SignUp from "./pages/SignUp";
 import Register from "./pages/Register";
 import MainPage from "./pages/MainPage";
@@ -9,6 +14,7 @@ import Layout from "./components/Layout";
 import RequireAuth from "./components/RequireAuth";
 
 import "./App.css";
+import CustomerPage from "./pages/CustomerPage";
 
 function App() {
   return (
@@ -19,6 +25,7 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route path="main" element={<MainPage />} />
           <Route path="employees" element={<EmployeesPage />} />
+          <Route path="customers" element={<CustomerPage />} />
         </Route>
 
         <Route path="*" />
