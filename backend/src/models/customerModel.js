@@ -18,7 +18,7 @@ const customerSchemas = {
   //creates a customer with a hashed password
   //
   createCustomer: (customerInfo, callback) => {
-    const query = `INSERT INTO customer (first_name, last_name, user_name, phone, email) VALUES (?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO customer (first_name, last_name, phone, email, assigned_agent, is_lead) VALUES (?, ?, ?, ?, ?, ?)`;
     const values = [...customerInfo];
 
     connectDb.query(query, values, callback);

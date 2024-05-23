@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import employeeFunctions from "../api/employeeFunctions";
-import { useFetcher } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import useAuth from "../hooks/useAuth";
 import { CiEdit } from "react-icons/ci";
@@ -8,6 +8,26 @@ import { CiEdit } from "react-icons/ci";
 function EmployeesTable() {
   const auth = useAuth();
   const [employees, setEmployees] = useState();
+
+  function deleteButton(employeeId) {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this event?"
+    );
+    //find out what to do if the employee is linked to a customer
+    //maybe update the customer to not be assigned to an agent, make it null
+    if (confirm) {
+      employeeFunctions
+        .deleteEmployee(auth.auth.accessToken, employeeId)
+        .then(() => {
+          setEmployees((prevEmployee) =>
+            prevEmployee.filter((employee) => employee.id !== employeeId)
+          );
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+  }
 
   useEffect(() => {
     employeeFunctions
@@ -21,8 +41,14 @@ function EmployeesTable() {
   return (
     <main className="main-container">
       <div className="main-title">
-        <h3>EMPLOYEES</h3>
+        <h3>Employees</h3>
       </div>
+      <div>
+        <Link to={"create"}>
+          <button>Add Employee</button>
+        </Link>
+      </div>
+      <hr />
       <div className="table-wrapper">
         <table className="my-table">
           <thead>
@@ -39,7 +65,7 @@ function EmployeesTable() {
           <tbody>
             {employees &&
               employees.map((employee) => (
-                <tr>
+                <tr key={employee.id}>
                   <th scope="row">{employee.id}</th>
                   <td>{employee.first_name}</td>
                   <td>{employee.last_name}</td>
@@ -48,8 +74,11 @@ function EmployeesTable() {
                   <td>{employee.email}</td>
                   <td>
                     <span>
-                      <CiEdit className="icon" />
-                      <MdDelete className="icon" />
+                      <CiEdit className="icon m-2" />
+                      <MdDelete
+                        className="icon m-2"
+                        onClick={() => deleteButton(employee.id)}
+                      />
                     </span>
                   </td>
                 </tr>

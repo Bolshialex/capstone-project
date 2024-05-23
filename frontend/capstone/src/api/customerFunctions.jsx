@@ -39,9 +39,7 @@ function fetchCustomerById(customerId) {
     });
 }
 
-function createCustomer(customerData) {
-  const token = getToken();
-
+function createCustomer(token, customerData) {
   return axios
     .post(`${API_URL}/customer`, customerData, {
       headers: {
@@ -71,20 +69,20 @@ function updateCustomer(customerId, customerData) {
     });
 }
 
-function deleteCustomer(customerId) {
-  return fetch(`${API_URL}/customer/${customerId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(handleResponse)
+function deleteCustomer(token, customerId) {
+  return axios
+    .delete(`${API_URL}/customer/${customerId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then()
     .catch((error) => {
-      console.error("Error deleting customer");
-      throw new error();
+      console.error("Error deleting customer", error);
+      throw error;
     });
 }
-
 export default {
   fetchAllCustomers,
   fetchCustomerById,

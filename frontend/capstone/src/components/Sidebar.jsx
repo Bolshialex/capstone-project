@@ -5,6 +5,7 @@ import { FaPeopleGroup } from "react-icons/fa6";
 import { IoIosSettings } from "react-icons/io";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaChartPie, FaPeopleArrows } from "react-icons/fa";
+import "../App.css";
 
 function Sidebar({ openSidebarToggle, OpenSidebar }) {
   return (
@@ -22,17 +23,17 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
       </div>
 
       <ul className="sidebar-list">
-        <Link to={"/main"}>
+        <Link className="sidebar-link" to={"/main"}>
           <li className="sidebar-list-item">
             <BsGrid1X2Fill className="icon" /> Dashboard
           </li>
         </Link>
-        <Link to={"/employees"}>
+        <Link className="sidebar-link" to={"/employees"}>
           <li className="sidebar-list-item">
             <BsPeopleFill className="icon" /> Employees
           </li>
         </Link>
-        <Link to={"/customers"}>
+        <Link className="sidebar-link" to={"/customers"}>
           <li className="sidebar-list-item">
             <FaPeopleArrows className="icon" /> Customers
           </li>
@@ -47,11 +48,11 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <AiOutlineMail className="icon" /> Messages
           </a>
         </li>
-        <li className="sidebar-list-item">
-          <a>
-            <IoIosSettings className="icon" /> Settings
-          </a>
-        </li>
+        <Link className="sidebar-link" to={"/profile"}>
+          <li className="sidebar-list-item">
+            <AiOutlineMail className="icon" /> Profile
+          </li>
+        </Link>
       </ul>
     </aside>
   );

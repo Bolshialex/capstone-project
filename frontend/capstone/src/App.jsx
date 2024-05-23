@@ -12,9 +12,11 @@ import MainPage from "./pages/MainPage";
 import EmployeesPage from "./pages/EmployeesPage";
 import Layout from "./components/Layout";
 import RequireAuth from "./components/RequireAuth";
-
-import "./App.css";
 import CustomerPage from "./pages/CustomerPage";
+import ProfilePage from "./pages/ProfilePage";
+import CreateEmployeePage from "./pages/CreateEmployeePage";
+import "./App.css";
+import CreateCustomerPage from "./pages/CreateCustomerPage";
 
 function App() {
   return (
@@ -26,6 +28,17 @@ function App() {
           <Route path="main" element={<MainPage />} />
           <Route path="employees" element={<EmployeesPage />} />
           <Route path="customers" element={<CustomerPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route
+            path="employees/create"
+            element={<CreateEmployeePage />}
+            exact
+          />
+          <Route
+            path="customers/create"
+            element={<CreateCustomerPage />}
+            exact
+          />
         </Route>
 
         <Route path="*" />

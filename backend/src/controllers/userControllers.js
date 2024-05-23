@@ -20,10 +20,10 @@ const createCustomer = asyncHandler(async (req, res) => {
   const customerInfo = [
     req.body.first_name,
     req.body.last_name,
-    req.body.user_name,
     req.body.phone,
     req.body.email,
-    req.body.password,
+    req.body.assigned_agent,
+    req.body.is_lead,
   ];
   customerSchemas.createCustomer(customerInfo, (err, result) => {
     if (err) {
@@ -80,6 +80,7 @@ const createEmployee = asyncHandler(async (req, res) => {
       req.body.user_name,
       req.body.phone,
       req.body.email,
+      req.body.is_admin,
       req.body.password,
     ];
 
@@ -89,7 +90,8 @@ const createEmployee = asyncHandler(async (req, res) => {
       !employeeInfo[2] ||
       !employeeInfo[3] ||
       !employeeInfo[4] ||
-      !employeeInfo[5]
+      !employeeInfo[5] ||
+      !employeeInfo[6]
     ) {
       res.status(400);
       throw new Error("Please add all fields");
@@ -100,10 +102,11 @@ const createEmployee = asyncHandler(async (req, res) => {
       req.body.user_name,
       req.body.phone,
       req.body.email,
+      req.body.is_admin,
     ];
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(employeeInfo[5], salt);
+    const hashedPassword = await bcrypt.hash(employeeInfo[6], salt);
     //check if already registered
     await employeeSchemas.getEmployeeByEmail(employeeInfo[4], (err, result) => {
       if (err) {

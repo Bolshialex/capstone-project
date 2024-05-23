@@ -84,6 +84,11 @@ body {
   -webkit-transition: all 0.5s;
 }
 
+.sidebar-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .sidebar-title {
   display: flex;
   justify-content: space-between;
@@ -197,6 +202,7 @@ body {
 /* Start Employees Table  */
 .table-wrapper {
   width: 100%;
+  padding: 100px 0 0 0;
 }
 
 .my-table {

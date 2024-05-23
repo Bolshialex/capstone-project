@@ -17,7 +17,7 @@ const employeeSchemas = {
   //
   createEmployee: (registrationInfo, hashedPassword, callback) => {
     const query =
-      "INSERT INTO employee (first_name, last_name, user_name, phone, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+      "INSERT INTO employee (first_name, last_name, user_name, phone, email, is_admin, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
     const values = [...registrationInfo, hashedPassword];
     connectDb.query(query, values, callback);
   },
