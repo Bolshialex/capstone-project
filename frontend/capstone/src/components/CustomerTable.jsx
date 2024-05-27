@@ -63,30 +63,32 @@ function CustomerTable() {
           </thead>
           <tbody>
             {customers &&
-              customers.map((customer) => (
-                <tr key={customer.id}>
-                  <th scope="row">{customer.id}</th>
-                  <td>{customer.first_name}</td>
-                  <td>{customer.last_name}</td>
-                  <td>{customer.phone}</td>
-                  <td>{customer.email}</td>
-                  <td>
-                    {customer.assigned_agent
-                      ? customer.assigned_agent
-                      : "Agent not assigned"}
-                  </td>
-                  <td>{customer.is_lead ? "True" : "False"}</td>
-                  <td>
-                    <span>
-                      <CiEdit className="icon m-2" />
-                      <MdDelete
-                        className="icon m-2"
-                        onClick={() => deleteButton(customer.id)}
-                      />
-                    </span>
-                  </td>
-                </tr>
-              ))}
+              customers.map((customer) =>
+                customer.is_active ? (
+                  <tr key={customer.id}>
+                    <th scope="row">{customer.id}</th>
+                    <td>{customer.first_name}</td>
+                    <td>{customer.last_name}</td>
+                    <td>{customer.phone}</td>
+                    <td>{customer.email}</td>
+                    <td>
+                      {customer.assigned_agent
+                        ? customer.assigned_agent
+                        : "Agent not assigned"}
+                    </td>
+                    <td>{customer.is_lead ? "True" : "False"}</td>
+                    <td>
+                      <span>
+                        <CiEdit className="icon m-2" />
+                        <MdDelete
+                          className="icon m-2"
+                          onClick={() => deleteButton(customer.id)}
+                        />
+                      </span>
+                    </td>
+                  </tr>
+                ) : null
+              )}
           </tbody>
         </table>
       </div>

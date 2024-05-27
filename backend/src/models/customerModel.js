@@ -31,8 +31,13 @@ const customerSchemas = {
   //deletes a customer
   //
   deleteCustomer: (customerId, callback) => {
-    const query = "DELETE FROM customer WHERE id = ?";
+    const query = "UPDATE customer SET is_active = 0 WHERE id = ?";
     const values = [customerId];
+    connectDb.query(query, values, callback);
+  },
+  getCustomerByAgent: (agentId, callback) => {
+    const query = "SELECT * customer WHERE assigned_agent = ?";
+    const values = [agentId];
     connectDb.query(query, values, callback);
   },
 };

@@ -133,11 +133,13 @@ function CreateNewCustomer() {
                         >
                           <option></option>
                           {employees &&
-                            employees.map((employee) => (
-                              <option
-                                value={employee.id}
-                              >{`ID: ${employee.id} Name: ${employee.first_name} ${employee.last_name}`}</option>
-                            ))}
+                            employees.map((employee) =>
+                              employee.is_active ? (
+                                <option
+                                  value={employee.id}
+                                >{`ID: ${employee.id} Name: ${employee.first_name} ${employee.last_name}`}</option>
+                              ) : null
+                            )}
                         </select>
                       </div>
 

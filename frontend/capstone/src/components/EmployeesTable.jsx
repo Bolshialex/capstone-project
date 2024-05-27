@@ -13,14 +13,13 @@ function EmployeesTable() {
     const confirm = window.confirm(
       "Are you sure you want to delete this event?"
     );
-    //find out what to do if the employee is linked to a customer
-    //maybe update the customer to not be assigned to an agent, make it null
+
     if (confirm) {
       employeeFunctions
         .deleteEmployee(auth.auth.accessToken, employeeId)
         .then(() => {
           setEmployees((prevEmployee) =>
-            prevEmployee.filter((employee) => employee.id !== employeeId)
+            prevEmployee.filter((employee) => employee.is_active)
           );
         })
         .catch((err) => {
@@ -64,25 +63,27 @@ function EmployeesTable() {
           </thead>
           <tbody>
             {employees &&
-              employees.map((employee) => (
-                <tr key={employee.id}>
-                  <th scope="row">{employee.id}</th>
-                  <td>{employee.first_name}</td>
-                  <td>{employee.last_name}</td>
-                  <td>{employee.user_name}</td>
-                  <td>{employee.phone}</td>
-                  <td>{employee.email}</td>
-                  <td>
-                    <span>
-                      <CiEdit className="icon m-2" />
-                      <MdDelete
-                        className="icon m-2"
-                        onClick={() => deleteButton(employee.id)}
-                      />
-                    </span>
-                  </td>
-                </tr>
-              ))}
+              employees.map((employee) =>
+                employee.is_active ? (
+                  <tr key={employee.id}>
+                    <th scope="row">{employee.id}</th>
+                    <td>{employee.first_name}</td>
+                    <td>{employee.last_name}</td>
+                    <td>{employee.user_name}</td>
+                    <td>{employee.phone}</td>
+                    <td>{employee.email}</td>
+                    <td>
+                      <span>
+                        <CiEdit className="icon m-2" />
+                        <MdDelete
+                          className="icon m-2"
+                          onClick={() => deleteButton(employee.id)}
+                        />
+                      </span>
+                    </td>
+                  </tr>
+                ) : null
+              )}
           </tbody>
         </table>
       </div>

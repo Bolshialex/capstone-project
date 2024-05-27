@@ -114,7 +114,7 @@ const createEmployee = asyncHandler(async (req, res) => {
         console.log(err);
         return;
       }
-      if (result == "") {
+      if (result.length < 1) {
         //hash password
         employeeSchemas.createEmployee(
           newEmployeeInfo,
@@ -149,6 +149,7 @@ const deleteEmployee = asyncHandler(async (req, res) => {
         console.log(err);
         return;
       }
+
       res.json(`Employee ${employeeId} deleted`);
     });
   } else {

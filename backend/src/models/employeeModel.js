@@ -29,9 +29,24 @@ const employeeSchemas = {
   //deletes an employee
   //
   deleteEmployee: (employeeId, callback) => {
-    const query = "DELETE FROM employee WHERE id = ?";
-    const values = [employeeId];
-    connectDb.query(query, values, callback);
+    const deleteQuery = "UPDATE employee SET is_active = 0 WHERE id = ?";
+    const updateQuery =
+      "UPDATE customer SET assigned_agent = null WHERE assigned_agent = ?";
+    const deleteValues = [employeeId];
+    const updateValues = [employeeId];
+    connectDb.query(deleteQuery, deleteValues, (deleteErr, deleteResult) => {
+      if (deleteErr) {
+        return callback(deleteErr);
+      }
+
+      connectDb.query(updateQuery, updateValues, (updateErr, updateResult) => {
+        if (updateErr) {
+          return callback(updateErr);
+        }
+
+        callback(null, deleteResult);
+      });
+    });
   },
   //logs in an employee, might not need this
   //

@@ -25,7 +25,7 @@ function createNewEmployee(token, employeeData) {
     })
     .then((response) => response.data)
     .catch((error) => {
-      console.error("Error creating employee:", error);
+      console.error("Error creating employee:", error.message);
       throw error;
     });
 }
