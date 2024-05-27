@@ -27,7 +27,7 @@ Kept # Documentation Update's
     - A database isn't always safe and SQL injections can happen. I Need to look into how to prevent easy access to all the data in the database
 
 
-### 1. Week Two
+### 2. Week Four
 
   Date: May 12, 2024
   
@@ -47,4 +47,28 @@ Kept # Documentation Update's
     - From working on making a full-stack project for mid-terms. I was able to learn to implement using the react-router-dom to create paths and navigate through different pages.
     - I also had practice fetching data and creating the proper functions to handle those tasks.
     - Sometimes you have to delete everything and start over if it isn't too much work. I didn't like my react setup so I switched to vite/react. It's not that big of a change but it helps with performance and has other helpful tools.
+
+
+### 3. Week Six
+
+  Date: May 26, 2024
+  
+  Features Added/Updated Since Last Update
+  
+    - Added frontend functionality for some CRUD features. These include Create and Delete. These are available for employees and customers.
+    - Added some code to allow a page reload without having to constantly log back into your account.
+    - Updated my database for an updated delete functionality.
+    
+  Issues Encountered
+  
+    - On page reload the user would have to log back into the account. This is obviously annoying and an example of bad design.
+      - Resolved, Added the authentication to the local storage so that it can be accessible on a page reload. 
+    - When deleting an employee that was assigned to a customer SQL gave me a lot of problems because I would need to clear that relationship before deleting.
+      - Resolved, I brought up the problem to a teacher and he mentioned that I can add an is_active variable and on delete, I would change that value.
+        This helped with simplicity and he made a good point of not deleting data from a table just in case that data is needed further down the project.
+
+  Lessons Learned
+  
+    - Test all areas a user might go to and click. Refresh is something the user will use from time to time and it's important to check for errors in that functionality.
+    - Asking for help understanding a problem can go a long way and can help broaden your view on an issue or error you are dealing with.
 
