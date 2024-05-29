@@ -35,6 +35,19 @@ const createCustomer = asyncHandler(async (req, res) => {
   });
 });
 
+const updateCustomer = asyncHandler(async (req, res) => {
+  const customerId = req.params.id;
+  const customerInfo = req.body;
+  customerSchemas.updateCustomer(customerId, customerInfo, (err, res) => {
+    if (err) {
+      res.status(500).json({ error: "Internal Server Error" });
+      console.log(err);
+      return;
+    }
+    res.json("Customer Updated");
+  });
+});
+
 const deleteCustomer = asyncHandler(async (req, res) => {
   const customerId = req.params.id;
   customerSchemas.deleteCustomer(customerId, (err, result) => {
@@ -139,6 +152,19 @@ const createEmployee = asyncHandler(async (req, res) => {
   }
 });
 
+const updateEmployee = asyncHandler(async (req, res) => {
+  const employeeId = req.params.id;
+  const employeeInfo = req.body;
+  customerSchemas.updateCustomer(employeeId, employeeInfo, (err, res) => {
+    if (err) {
+      res.status(500).json({ error: "Internal Server Error" });
+      console.log(err);
+      return;
+    }
+    res.json("Customer Updated");
+  });
+});
+
 const deleteEmployee = asyncHandler(async (req, res) => {
   console.log(req.user);
   if (req.user.is_admin) {
@@ -183,4 +209,6 @@ module.exports = {
   createCustomer,
   deleteCustomer,
   getCustomerById,
+  updateCustomer,
+  updateEmployee,
 };

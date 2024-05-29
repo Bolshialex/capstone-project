@@ -23,7 +23,18 @@ const employeeSchemas = {
   },
   //updates an employee
   //
-  updateEmployee: (callback) => {
+  updateEmployee: (employeeId, employeeInfo, callback) => {
+    const query = `UPDATE employee SET first_name = ?, last_name = ?, user_name = ?, phone = ?, email = ?, is_admin = ?, is_lead = ? WHERE id = ?`;
+    const values = [
+      employeeInfo.first_name,
+      employeeInfo.last_name,
+      employeeInfo.phone,
+      employeeInfo.email,
+      employeeInfo.assigned_agent,
+      employeeInfo.is_lead,
+      employeeId,
+    ];
+    connectDb.query(query, values, callback);
     //Leave update for later
   },
   //deletes an employee

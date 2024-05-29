@@ -48,11 +48,6 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <AiOutlineMail className="icon" /> Messages
           </a>
         </li>
-        <Link className="sidebar-link" to={"/profile"}>
-          <li className="sidebar-list-item">
-            <AiOutlineMail className="icon" /> Profile
-          </li>
-        </Link>
       </ul>
     </aside>
   );

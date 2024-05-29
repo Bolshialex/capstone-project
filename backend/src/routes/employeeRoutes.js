@@ -11,6 +11,7 @@ router
 
 router
   .delete("/:id", checkToken, userControllers.deleteEmployee)
-  .get("/:id", checkToken, userControllers.getEmployeeById);
+  .get("/:id", checkToken, userControllers.getEmployeeById)
+  .put("/:id", checkToken, userControllers.updateEmployee);
 
 module.exports = router;

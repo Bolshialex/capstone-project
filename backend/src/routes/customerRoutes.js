@@ -12,6 +12,7 @@ router
 
 router
   .delete("/:id", checkToken, userControllers.deleteCustomer)
-  .get("/:id", checkToken, userControllers.getCustomerById);
+  .get("/:id", checkToken, userControllers.getCustomerById)
+  .put("/:id", checkToken, userControllers.updateCustomer);
 
 module.exports = router;

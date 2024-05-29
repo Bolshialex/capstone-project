@@ -80,7 +80,6 @@ const createEmployeeInfo = asyncHandler(async (req, res) => {
 });
 
 const deleteEmployee = (req, res) => {
-  console.log(req.user);
   if (req.user.is_admin) {
     const employeeId = req.params.id;
     employeeSchemas.deleteEmployee(employeeId, (err, result) => {

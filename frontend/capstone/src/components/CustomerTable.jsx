@@ -79,7 +79,10 @@ function CustomerTable() {
                     <td>{customer.is_lead ? "True" : "False"}</td>
                     <td>
                       <span>
-                        <CiEdit className="icon m-2" />
+                        <Link to={`update/${customer.id}`}>
+                          <CiEdit className="icon m-2" />
+                        </Link>
+
                         <MdDelete
                           className="icon m-2"
                           onClick={() => deleteButton(customer.id)}

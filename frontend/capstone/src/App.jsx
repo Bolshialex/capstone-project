@@ -17,6 +17,8 @@ import ProfilePage from "./pages/ProfilePage";
 import CreateEmployeePage from "./pages/CreateEmployeePage";
 import "./App.css";
 import CreateCustomerPage from "./pages/CreateCustomerPage";
+import UpdateCustomerPage from "./pages/UpdateCustomerPage";
+import UpdateEmployeePage from "./pages/UpdateEmployeePage";
 
 function App() {
   return (
@@ -28,7 +30,7 @@ function App() {
           <Route path="main" element={<MainPage />} />
           <Route path="employees" element={<EmployeesPage />} />
           <Route path="customers" element={<CustomerPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+
           <Route
             path="employees/create"
             element={<CreateEmployeePage />}
@@ -37,6 +39,17 @@ function App() {
           <Route
             path="customers/create"
             element={<CreateCustomerPage />}
+            exact
+          />
+          <Route
+            path="customers/update/:id"
+            element={<UpdateCustomerPage />}
+            exact
+          />
+
+          <Route
+            path="employees/update/:id"
+            element={<UpdateEmployeePage />}
             exact
           />
         </Route>

@@ -74,7 +74,9 @@ function EmployeesTable() {
                     <td>{employee.email}</td>
                     <td>
                       <span>
-                        <CiEdit className="icon m-2" />
+                        <Link to={`update/${employee.id}`}>
+                          <CiEdit className="icon m-2" />
+                        </Link>
                         <MdDelete
                           className="icon m-2"
                           onClick={() => deleteButton(employee.id)}

@@ -30,6 +30,21 @@ function createNewEmployee(token, employeeData) {
     });
 }
 
+function updateEmployee(token, employeeId, employeeData) {
+  return axios
+    .put(`${API_URL}/customer/${employeeId}`, employeeData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error updating employee", error);
+      throw error;
+    });
+}
+
 function deleteEmployee(token, employeeId) {
   return axios
     .delete(`${API_URL}/employee/${employeeId}`, {
@@ -45,4 +60,9 @@ function deleteEmployee(token, employeeId) {
     });
 }
 
-export default { fetchAllEmployees, createNewEmployee, deleteEmployee };
+export default {
+  fetchAllEmployees,
+  createNewEmployee,
+  deleteEmployee,
+  updateEmployee,
+};

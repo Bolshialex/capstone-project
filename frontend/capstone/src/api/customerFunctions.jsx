@@ -54,18 +54,18 @@ function createCustomer(token, customerData) {
     });
 }
 
-function updateCustomer(customerId, customerData) {
-  return fetch(`${API_URL}/customer/${customerId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(customerData),
-  })
-    .then(handleResponse)
+function updateCustomer(token, customerId, customerData) {
+  return axios
+    .put(`${API_URL}/customer/${customerId}`, customerData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.data)
     .catch((error) => {
-      console.error("Error updating customer");
-      throw new error();
+      console.error("Error updating customer", error);
+      throw error;
     });
 }
 

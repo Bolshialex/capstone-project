@@ -25,7 +25,19 @@ const customerSchemas = {
   },
   //updates a customer
   //
-  updateCustomer: (callback) => {
+  updateCustomer: (customerId, customerInfo, callback) => {
+    const query = `UPDATE customer SET first_name = ?, last_name = ?, phone = ?, email = ?, assigned_agent = ?, is_lead = ? WHERE id = ?`;
+    const values = [
+      customerInfo.first_name,
+      customerInfo.last_name,
+      customerInfo.phone,
+      customerInfo.email,
+      customerInfo.assigned_agent,
+      customerInfo.is_lead,
+      customerId,
+    ];
+
+    connectDb.query(query, values, callback);
     //Leave update for later
   },
   //deletes a customer
