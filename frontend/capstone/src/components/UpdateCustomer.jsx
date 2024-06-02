@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
-import { useState, useEffect } from "react";
 import employeeFunctions from "../api/employeeFunctions";
 import customerFunctions from "../api/customerFunctions";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,55 +9,62 @@ function UpdateCustomer() {
   const { id } = useParams();
   const auth = useAuth();
 
-  const [employees, setEmployees] = useState();
-  const [customers, setCustomers] = useState();
+  const [employees, setEmployees] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    phone: "",
+    email: "",
+    assigned_agent: "",
+    is_lead: "",
+  });
 
   useEffect(() => {
     employeeFunctions
       .fetchAllEmployees(auth.auth.accessToken)
-      .then((employees) => {
-        setEmployees(employees);
-      })
+      .then((employees) => setEmployees(employees))
       .catch((error) => console.error(error));
-  }, []);
+  }, [auth.auth.accessToken]);
 
   useEffect(() => {
     customerFunctions
       .fetchAllCustomers(auth.auth.accessToken)
-      .then((customers) => {
-        setCustomers(customers);
-      })
+      .then((customers) => setCustomers(customers))
       .catch((error) => console.error(error));
-  }, []);
+  }, [auth.auth.accessToken]);
 
-  const customer = customers?.find((customer) => customer.id == id);
+  useEffect(() => {
+    if (customers.length > 0) {
+      const customer = customers.find((customer) => customer.id == id);
+      if (customer) {
+        setFormData({
+          first_name: customer.first_name || "",
+          last_name: customer.last_name || "",
+          phone: customer.phone || "",
+          email: customer.email || "",
+          assigned_agent: customer.assigned_agent || "",
+          is_lead: customer.is_lead ? "1" : "0",
+        });
+      }
+    }
+  }, [customers, id]);
 
-  const oldCustomer = { ...customer };
+  const handle = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
 
-  const [formData, setFormData] = useState({
-    first_name: oldCustomer.first_name,
-    last_name: oldCustomer.last_name,
-    phone: oldCustomer.phone,
-    email: oldCustomer.email,
-    assigned_agent: oldCustomer.assigned_agent,
-    is_lead: oldCustomer.is_lead,
-  });
-
-  function handle(e) {
-    const newFormData = { ...formData };
-
-    newFormData[e.target.id] = e.target.value;
-
-    setFormData(newFormData);
-  }
-
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
     customerFunctions
       .updateCustomer(auth.auth.accessToken, id, formData)
-      .then(navigate("/customers"))
-      .catch((error) => console.error(err));
-  }
+      .then(() => navigate("/customers"))
+      .catch((error) => console.error(error));
+  };
 
   return (
     <main className="main-container">
@@ -81,10 +87,8 @@ function UpdateCustomer() {
                           type="text"
                           id="first_name"
                           className="form-control"
-                          placeholder="First Name"
-                          onChange={(e) => handle(e)}
-                          value={oldCustomer.first_name}
-                          required
+                          onChange={handle}
+                          value={formData.first_name}
                           name="first_name"
                         />
                       </div>
@@ -95,26 +99,20 @@ function UpdateCustomer() {
                           type="text"
                           id="last_name"
                           className="form-control"
-                          placeholder="Last Name"
-                          onChange={(e) => handle(e)}
-                          value={oldCustomer.last_name}
-                          required
+                          onChange={handle}
+                          value={formData.last_name}
                           name="last_name"
                         />
                       </div>
 
                       <div className="col-md-6">
-                        <label for="inputEmail4" className="form-label">
-                          Email
-                        </label>
+                        <label className="form-label">Email</label>
                         <input
                           type="email"
                           id="email"
                           className="form-control"
-                          placeholder="Email"
-                          onChange={(e) => handle(e)}
-                          value={oldCustomer.email}
-                          required
+                          onChange={handle}
+                          value={formData.email}
                           name="email"
                         />
                       </div>
@@ -125,50 +123,48 @@ function UpdateCustomer() {
                           type="text"
                           id="phone"
                           className="form-control"
-                          placeholder="Phone"
-                          onChange={(e) => handle(e)}
-                          value={oldCustomer.phone}
-                          required
+                          onChange={handle}
+                          value={formData.phone}
                           name="phone"
                         />
                       </div>
 
                       <div className="col-md-6">
-                        <label for="inputEmail4" className="form-label">
-                          Assigned Agent
-                        </label>
+                        <label className="form-label">Assigned Agent</label>
                         <select
                           id="assigned_agent"
                           className="form-control"
-                          placeholder="Assigned Agent"
-                          onChange={(e) => handle(e)}
-                          required
+                          value={formData.assigned_agent}
+                          onChange={handle}
                           name="assigned_agent"
                         >
                           <option disabled selected>
-                            Please select an agent (current agent highlighted)
+                            Please select an agent
                           </option>
                           {employees &&
-                            employees.map((employee) =>
-                              employee.is_active ? (
-                                <option
-                                  key={employee.id}
-                                  value={employee.id}
-                                  style={
-                                    employee.id == oldCustomer.assigned_agent
-                                      ? { backgroundColor: "yellow" }
-                                      : {}
-                                  }
-                                >{`ID: ${employee.id}`}</option>
-                              ) : null
+                            employees.map(
+                              (employee) =>
+                                employee.is_active && (
+                                  <option
+                                    key={employee.id}
+                                    value={employee.id}
+                                    style={
+                                      employee.id == formData.assigned_agent
+                                        ? { backgroundColor: "yellow" }
+                                        : {}
+                                    }
+                                  >
+                                    {`ID: ${employee.id}`}
+                                  </option>
+                                )
                             )}
                           <option
+                            value=""
                             style={
-                              oldCustomer.assigned_agent == null
+                              formData.assigned_agent === ""
                                 ? { backgroundColor: "yellow" }
                                 : {}
                             }
-                            value={-1}
                           >
                             No Agent Selected
                           </option>
@@ -176,27 +172,14 @@ function UpdateCustomer() {
                       </div>
 
                       <div className="col-md-6">
-                        <label for="inputEmail4" className="form-label">
-                          Lead Customer
-                        </label>
+                        <label className="form-label">Lead Customer</label>
                         <select
                           id="is_lead"
                           className="form-control"
-                          placeholder="Lead Customer"
-                          onChange={(e) => handle(e)}
                           value={formData.is_lead}
-                          required
+                          onChange={handle}
                           name="is_lead"
                         >
-                          {oldCustomer.is_lead ? (
-                            <option disabled selected>
-                              True
-                            </option>
-                          ) : (
-                            <option disabled selected>
-                              False
-                            </option>
-                          )}
                           <option value="1">True</option>
                           <option value="0">False</option>
                         </select>
@@ -207,7 +190,7 @@ function UpdateCustomer() {
               </div>
 
               <div className="gap-3 d-md-flex justify-content-md-end text-center">
-                <button type="submit" className="btn btn-primary ">
+                <button type="submit" className="btn btn-primary">
                   Update Customer
                 </button>
               </div>

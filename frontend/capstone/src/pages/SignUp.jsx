@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
-import loginFunction from "../api/loginFunction";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
 

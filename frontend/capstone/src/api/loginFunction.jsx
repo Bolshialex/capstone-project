@@ -3,7 +3,7 @@ const API_URL = "http://localhost:3000";
 
 async function login(email, password) {
   try {
-    const response = await axios.post(
+    await axios.post(
       `${API_URL}/login`,
       {
         email,

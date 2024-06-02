@@ -1,7 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import registerFunction from "../api/registerFunction";
 import "../App.css";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    user_name: "",
+    phone: "",
+    email: "",
+    password: "",
+  });
+
+  const handle = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    registerFunction
+      .registerEmployee(formData)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <section className="register vh-100">
       <div className="h-100">
@@ -12,73 +44,127 @@ function Register() {
                 <div className="row justify-content-center">
                   <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                     <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                      Sign up
+                      Register
                     </p>
 
-                    <form className="mx-1 mx-md-4">
+                    <form className="mx-1 mx-md-4" onSubmit={handleSubmit}>
                       <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                        <div
-                          data-mdb-input-init
-                          className="form-outline flex-fill mb-0"
-                        >
+                        <i className="fas fa-user fa-lg me-3 fa-fw" />
+                        <div className="form-outline flex-fill mb-0">
                           <input
                             type="text"
-                            id="form3Example1c"
+                            id="first_name"
+                            name="first_name"
                             className="form-control"
+                            value={formData.first_name}
+                            onChange={handle}
                           />
-                          <label className="form-label" for="form3Example1c">
-                            Your Name
+                          <label className="form-label" htmlFor="first_name">
+                            First Name
                           </label>
                         </div>
                       </div>
 
                       <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                        <div
-                          data-mdb-input-init
-                          className="form-outline flex-fill mb-0"
-                        >
+                        <i className="fas fa-user fa-lg me-3 fa-fw" />
+                        <div className="form-outline flex-fill mb-0">
+                          <input
+                            type="text"
+                            id="last_name"
+                            name="last_name"
+                            className="form-control"
+                            value={formData.last_name}
+                            onChange={handle}
+                          />
+                          <label className="form-label" htmlFor="last_name">
+                            Last Name
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="d-flex flex-row align-items-center mb-4">
+                        <i className="fas fa-user fa-lg me-3 fa-fw" />
+                        <div className="form-outline flex-fill mb-0">
+                          <input
+                            type="text"
+                            id="user_name"
+                            name="user_name"
+                            className="form-control"
+                            value={formData.user_name}
+                            onChange={handle}
+                          />
+                          <label className="form-label" htmlFor="user_name">
+                            Username
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="d-flex flex-row align-items-center mb-4">
+                        <i className="fas fa-phone fa-lg me-3 fa-fw" />
+                        <div className="form-outline flex-fill mb-0">
+                          <input
+                            type="text"
+                            id="phone"
+                            name="phone"
+                            className="form-control"
+                            value={formData.phone}
+                            onChange={handle}
+                          />
+                          <label className="form-label" htmlFor="phone_number">
+                            Phone Number
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="d-flex flex-row align-items-center mb-4">
+                        <i className="fas fa-envelope fa-lg me-3 fa-fw" />
+                        <div className="form-outline flex-fill mb-0">
                           <input
                             type="email"
-                            id="form3Example3c"
+                            id="email"
+                            name="email"
                             className="form-control"
+                            value={formData.email}
+                            onChange={handle}
                           />
-                          <label className="form-label" for="form3Example3c">
-                            Your Email
+                          <label className="form-label" htmlFor="email">
+                            Email
                           </label>
                         </div>
                       </div>
 
                       <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
-                        <div
-                          data-mdb-input-init
-                          className="form-outline flex-fill mb-0"
-                        >
+                        <i className="fas fa-lock fa-lg me-3 fa-fw" />
+                        <div className="form-outline flex-fill mb-0">
                           <input
                             type="password"
-                            id="form3Example4c"
+                            id="password"
+                            name="password"
                             className="form-control"
+                            value={formData.password}
+                            onChange={handle}
                           />
-                          <label className="form-label" for="form3Example4c">
+                          <label className="form-label" htmlFor="password">
                             Password
                           </label>
                         </div>
                       </div>
 
                       <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fas fa-key fa-lg me-3 fa-fw"></i>
-                        <div
-                          data-mdb-input-init
-                          className="form-outline flex-fill mb-0"
-                        >
+                        <i className="fas fa-key fa-lg me-3 fa-fw" />
+                        <div className="form-outline flex-fill mb-0">
                           <input
                             type="password"
-                            id="form3Example4cd"
+                            id="repeat_password"
+                            name="repeat_password"
                             className="form-control"
+                            //value={formData.repeat_password}
+                            onChange={handle}
                           />
-                          <label className="form-label" for="form3Example4cd">
+                          <label
+                            className="form-label"
+                            htmlFor="repeat_password"
+                          >
                             Repeat your password
                           </label>
                         </div>
@@ -88,18 +174,22 @@ function Register() {
                         <input
                           className="form-check-input me-2"
                           type="checkbox"
-                          value=""
-                          id="form2Example3c"
+                          id="admin_controls"
+                          name="admin_controls"
+                          //checked={formData.adminControls}
+                          onChange={handle}
                         />
-                        <label className="form-check-label" for="form2Example3">
-                          I agree all statements in{" "}
-                          <a href="#!">Terms of service</a>
+                        <label
+                          className="form-check-label"
+                          htmlFor="admin_controls"
+                        >
+                          Request admin controls
                         </label>
                       </div>
 
                       <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                         <button
-                          type="button"
+                          type="submit"
                           data-mdb-button-init
                           data-mdb-ripple-init
                           className="btn btn-primary btn-lg"

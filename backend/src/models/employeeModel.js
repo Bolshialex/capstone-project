@@ -24,14 +24,14 @@ const employeeSchemas = {
   //updates an employee
   //
   updateEmployee: (employeeId, employeeInfo, callback) => {
-    const query = `UPDATE employee SET first_name = ?, last_name = ?, user_name = ?, phone = ?, email = ?, is_admin = ?, is_lead = ? WHERE id = ?`;
+    const query = `UPDATE employee SET first_name = ?, last_name = ?, user_name = ?, phone = ?, email = ?, is_admin = ? WHERE id = ?`;
     const values = [
       employeeInfo.first_name,
       employeeInfo.last_name,
+      employeeInfo.user_name,
       employeeInfo.phone,
       employeeInfo.email,
-      employeeInfo.assigned_agent,
-      employeeInfo.is_lead,
+      employeeInfo.is_admin,
       employeeId,
     ];
     connectDb.query(query, values, callback);

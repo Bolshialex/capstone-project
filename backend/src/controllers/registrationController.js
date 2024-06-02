@@ -1,5 +1,6 @@
 const connectDb = require("../configs/db");
 const employeeSchemas = require("../models/employeeModel");
+const registerSchemas = require("../models/registerModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
@@ -14,6 +15,7 @@ const registerEmployee = asyncHandler(async (req, res) => {
     req.body.phone,
     req.body.email,
     req.body.password,
+    req.body.is_admin,
   ];
 
   if (
@@ -37,17 +39,18 @@ const registerEmployee = asyncHandler(async (req, res) => {
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(employeeInfo[5], salt);
-  //check if already registered
+
   await employeeSchemas.getEmployeeByEmail(employeeInfo[4], (err, result) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });
       console.log(err);
       return;
     }
+    //check result to change the if statement
     if (result == "") {
       //hash password
 
-      employeeSchemas.createEmployee(
+      registerSchemas.registerEmployee(
         newEmployeeInfo,
         hashedPassword,
         (err, result) => {
@@ -55,22 +58,8 @@ const registerEmployee = asyncHandler(async (req, res) => {
             res.status(500).json({ error: "Internal Server Error" });
             console.log(err);
             return;
-          } else {
-            employeeSchemas.getEmployeeById(result.insertId, (err, result) => {
-              if (err) {
-                res.status(500).json({ error: "Internal Server Error" });
-                console.log(err);
-                return;
-              }
-              res.status(201).json({
-                id: result[0].id,
-                first_name: result[0].first_name,
-                email: result[0].email,
-                is_admin: employee.is_admin,
-                token: generateToken(employee.id, employee.is_admin),
-              });
-            });
           }
+          return res.status(201).json({ message: "Employee created" });
         }
       );
     } else {

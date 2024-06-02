@@ -1,24 +1,29 @@
-import { useState, createContext, Children, useEffect } from "react";
+import { useState, createContext, useEffect } from "react";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(() => {
-    // Initialize auth state from localStorage
     const storedAuth = localStorage.getItem("auth");
     return storedAuth ? JSON.parse(storedAuth) : null;
   });
 
   useEffect(() => {
-    // Update localStorage whenever auth state changes
     if (auth) {
       localStorage.setItem("auth", JSON.stringify(auth));
     } else {
       localStorage.removeItem("auth");
     }
   }, [auth]);
+
+  const logout = () => {
+    setAuth(null);
+    localStorage.removeItem("auth");
+    // Optionally, add any additional logout logic here (e.g., redirect to login page)
+  };
+
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider value={{ auth, setAuth, logout }}>
       {children}
     </AuthContext.Provider>
   );

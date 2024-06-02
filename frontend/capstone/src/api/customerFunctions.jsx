@@ -1,12 +1,6 @@
 import axios from "axios";
 const API_URL = "http://localhost:3000";
 
-function getToken() {
-  const authorizationHeader = localStorage.getItem("Authorization");
-  const token = authorizationHeader ? authorizationHeader.split(" ")[1] : null;
-  return token;
-}
-
 // function handleResponse(response) {
 //   if (!response.ok) {
 //     throw new Error(`Http error. Status: ${response.status}`);

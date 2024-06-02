@@ -5,6 +5,7 @@ import { FaPeopleGroup } from "react-icons/fa6";
 import { IoIosSettings } from "react-icons/io";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaChartPie, FaPeopleArrows } from "react-icons/fa";
+import LogoutButton from "./LogoutButton";
 import "../App.css";
 
 function Sidebar({ openSidebarToggle, OpenSidebar }) {
@@ -49,6 +50,9 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           </a>
         </li>
       </ul>
+      <div>
+        <LogoutButton />
+      </div>
     </aside>
   );
 }

@@ -32,7 +32,7 @@ function createNewEmployee(token, employeeData) {
 
 function updateEmployee(token, employeeId, employeeData) {
   return axios
-    .put(`${API_URL}/customer/${employeeId}`, employeeData, {
+    .put(`${API_URL}/employee/${employeeId}`, employeeData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
-import { useState, useEffect } from "react";
 import employeeFunctions from "../api/employeeFunctions";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -9,39 +8,55 @@ function UpdateEmployee() {
   const { id } = useParams();
   const auth = useAuth();
 
-  const [employees, setEmployees] = useState();
+  const [employees, setEmployees] = useState([]);
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    user_name: "",
+    phone: "",
+    email: "",
+    is_admin: "",
+  });
 
   useEffect(() => {
     employeeFunctions
       .fetchAllEmployees(auth.auth.accessToken)
-      .then((employees) => {
-        setEmployees(employees);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+      .then((employees) => setEmployees(employees))
+      .catch((error) => console.log(error));
+  }, [auth.auth.accessToken]);
 
-  const employee = employees?.find((employee) => employee.id == id);
-  const oldEmployee = { ...employee };
-  const [formData, setFormData] = useState({
-    first_name: oldEmployee.first_name,
-    last_name: oldEmployee.last_name,
-    phone: oldEmployee.phone,
-    email: oldEmployee.email,
-  });
+  useEffect(() => {
+    if (employees.length > 0) {
+      const employee = employees.find((employee) => employee.id == id);
+      if (employee) {
+        setFormData({
+          first_name: employee.first_name || "",
+          last_name: employee.last_name || "",
+          user_name: employee.user_name || "",
+          phone: employee.phone || "",
+          email: employee.email || "",
+          is_admin: employee.is_admin ? "1" : "0",
+        });
+      }
+    }
+  }, [employees, id]);
 
-  function handle(e) {
-    const newFormData = { ...formData };
-    newFormData[e.target.id] = e.target.value;
-    setFormData(newFormData);
-  }
+  const handle = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
     employeeFunctions
       .updateEmployee(auth.auth.accessToken, id, formData)
-      .then(navigate("/customers"))
-      .catch((error) => console.error(err));
-  }
+      .then(() => navigate("/employees"))
+      .catch((error) => console.error(error));
+  };
 
   return (
     <main className="main-container">
@@ -64,11 +79,9 @@ function UpdateEmployee() {
                           type="text"
                           id="first_name"
                           className="form-control"
+                          onChange={handle}
                           placeholder="First Name"
-                          onChange={(e) => handle(e)}
-                          value={oldEmployee.first_name}
-                          required
-                          name="first_name"
+                          value={formData.first_name}
                         />
                       </div>
 
@@ -78,27 +91,21 @@ function UpdateEmployee() {
                           type="text"
                           id="last_name"
                           className="form-control"
+                          onChange={handle}
                           placeholder="Last Name"
-                          onChange={(e) => handle(e)}
-                          value={oldEmployee.last_name}
-                          required
-                          name="last_name"
+                          value={formData.last_name}
                         />
                       </div>
 
                       <div className="col-md-6">
-                        <label for="inputEmail4" className="form-label">
-                          Email
-                        </label>
+                        <label className="form-label">Email</label>
                         <input
                           type="email"
                           id="email"
                           className="form-control"
+                          onChange={handle}
                           placeholder="Email"
-                          onChange={(e) => handle(e)}
-                          value={oldEmployee.email}
-                          required
-                          name="email"
+                          value={formData.email}
                         />
                       </div>
 
@@ -108,11 +115,9 @@ function UpdateEmployee() {
                           type="text"
                           id="phone"
                           className="form-control"
+                          onChange={handle}
                           placeholder="Phone"
-                          onChange={(e) => handle(e)}
-                          value={oldEmployee.phone}
-                          required
-                          name="phone"
+                          value={formData.phone}
                         />
                       </div>
 
@@ -120,35 +125,22 @@ function UpdateEmployee() {
                         <label className="form-label">Username</label>
                         <input
                           type="text"
-                          name="user_name"
-                          className="form-control"
-                          placeholder="user_name"
-                          value={oldEmployee.user_name}
-                          onChange={(e) => handle(e)}
                           id="user_name"
-                          required
+                          className="form-control"
+                          onChange={handle}
+                          placeholder="Username"
+                          value={formData.user_name}
                         />
                       </div>
 
                       <div className="col-md-6">
                         <label className="form-label">Admin</label>
                         <select
-                          name="is_admin"
-                          className="form-control"
-                          value={oldEmployee.is_admin}
-                          onChange={(e) => handle(e)}
                           id="is_admin"
-                          required
+                          className="form-control"
+                          value={formData.is_admin}
+                          onChange={handle}
                         >
-                          {oldEmployee.is_admin ? (
-                            <option disabled selected>
-                              True
-                            </option>
-                          ) : (
-                            <option disabled selected>
-                              False
-                            </option>
-                          )}
                           <option value="1">True</option>
                           <option value="0">False</option>
                         </select>
@@ -159,8 +151,8 @@ function UpdateEmployee() {
               </div>
 
               <div className="gap-3 d-md-flex justify-content-md-end text-center">
-                <button type="submit" className="btn btn-primary ">
-                  Update Customer
+                <button type="submit" className="btn btn-primary">
+                  Update Employee
                 </button>
               </div>
             </form>

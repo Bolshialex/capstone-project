@@ -6,6 +6,7 @@ const connectDb = require("./src/configs/db.js");
 const server = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+//add rate limiter
 
 server.use(cookieParser());
 server.use(

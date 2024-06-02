@@ -38,9 +38,13 @@ const createCustomer = asyncHandler(async (req, res) => {
 const updateCustomer = asyncHandler(async (req, res) => {
   const customerId = req.params.id;
   const customerInfo = req.body;
-  customerSchemas.updateCustomer(customerId, customerInfo, (err, res) => {
+  if (customerInfo.assigned_agent == "") {
+    customerInfo.assigned_agent = null;
+  }
+
+  customerSchemas.updateCustomer(customerId, customerInfo, (err, result) => {
     if (err) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: err.message }); // Use res.json here
       console.log(err);
       return;
     }
@@ -155,13 +159,16 @@ const createEmployee = asyncHandler(async (req, res) => {
 const updateEmployee = asyncHandler(async (req, res) => {
   const employeeId = req.params.id;
   const employeeInfo = req.body;
-  customerSchemas.updateCustomer(employeeId, employeeInfo, (err, res) => {
+  if (employeeInfo.assigned_agent == "") {
+    employeeInfo.assigned_agent = null;
+  }
+  employeeSchemas.updateEmployee(employeeId, employeeInfo, (err, result) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });
       console.log(err);
       return;
     }
-    res.json("Customer Updated");
+    res.json("Employee Updated");
   });
 });
 
