@@ -1,54 +1,49 @@
 const connectDb = require("../configs/db");
 const employeeSchemas = require("../models/employeeModel");
 const registerSchemas = require("../models/registerModel");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 
 connectDb;
 
 const registerEmployee = asyncHandler(async (req, res) => {
-  const employeeInfo = [
-    req.body.first_name,
-    req.body.last_name,
-    req.body.user_name,
-    req.body.phone,
-    req.body.email,
-    req.body.password,
-    req.body.is_admin,
-  ];
+  const { first_name, last_name, user_name, phone, email, password, is_admin } =
+    req.body;
 
+  // Check if all required fields are provided
   if (
-    !employeeInfo[0] ||
-    !employeeInfo[1] ||
-    !employeeInfo[2] ||
-    !employeeInfo[3] ||
-    !employeeInfo[4] ||
-    !employeeInfo[5]
+    !first_name ||
+    !last_name ||
+    !user_name ||
+    !phone ||
+    !email ||
+    !password
   ) {
     res.status(400);
     throw new Error("Please add all fields");
   }
-  const newEmployeeInfo = [
-    req.body.first_name,
-    req.body.last_name,
-    req.body.user_name,
-    req.body.phone,
-    req.body.email,
-  ];
 
+  // Hash password
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(employeeInfo[5], salt);
+  const hashedPassword = await bcrypt.hash(password, salt);
 
-  await employeeSchemas.getEmployeeByEmail(employeeInfo[4], (err, result) => {
+  // Check if employee already exists
+  employeeSchemas.getEmployeeByEmail(email, async (err, result) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });
-      console.log(err);
+      console.error(err);
       return;
     }
-    //check result to change the if statement
-    if (result == "") {
-      //hash password
+
+    if (result.length === 0) {
+      // Register new employee
+      const newEmployeeInfo = {
+        first_name,
+        last_name,
+        user_name,
+        phone,
+        email,
+      };
 
       registerSchemas.registerEmployee(
         newEmployeeInfo,
@@ -56,10 +51,10 @@ const registerEmployee = asyncHandler(async (req, res) => {
         (err, result) => {
           if (err) {
             res.status(500).json({ error: "Internal Server Error" });
-            console.log(err);
+            console.error(err);
             return;
           }
-          return res.status(201).json({ message: "Employee created" });
+          res.status(201).json({ message: "Employee created" });
         }
       );
     } else {
@@ -67,11 +62,5 @@ const registerEmployee = asyncHandler(async (req, res) => {
     }
   });
 });
-
-const generateToken = (id, is_admin) => {
-  return jwt.sign({ id: id, is_admin: is_admin }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
-};
 
 module.exports = { registerEmployee };
