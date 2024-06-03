@@ -4,22 +4,21 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(() => {
-    const storedAuth = localStorage.getItem("auth");
+    const storedAuth = sessionStorage.getItem("auth");
     return storedAuth ? JSON.parse(storedAuth) : null;
   });
 
   useEffect(() => {
     if (auth) {
-      localStorage.setItem("auth", JSON.stringify(auth));
+      sessionStorage.setItem("auth", JSON.stringify(auth));
     } else {
-      localStorage.removeItem("auth");
+      sessionStorage.removeItem("auth");
     }
   }, [auth]);
 
   const logout = () => {
     setAuth(null);
-    localStorage.removeItem("auth");
-    // Optionally, add any additional logout logic here (e.g., redirect to login page)
+    sessionStorage.removeItem("auth");
   };
 
   return (
