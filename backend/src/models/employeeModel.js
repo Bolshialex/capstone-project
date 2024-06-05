@@ -73,6 +73,11 @@ const employeeSchemas = {
     const values = [email];
     connectDb.query(query, values, callback);
   },
+  getEmployeesByIdIn: (employeeId, callback) => {
+    const query = "SELECT * FROM employee WHERE id IN (?)";
+    const values = [employeeId];
+    connectDb.query(query, values, callback);
+  },
 };
 
 module.exports = employeeSchemas;

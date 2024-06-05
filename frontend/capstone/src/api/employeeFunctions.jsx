@@ -59,10 +59,24 @@ function deleteEmployee(token, employeeId) {
       throw error;
     });
 }
+function fetchEmployeeById(token, employeeId) {
+  return axios
+    .get(`${API_URL}/employee/${employeeId}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error fetching employee:", error);
+      throw error;
+    });
+}
 
 export default {
   fetchAllEmployees,
   createNewEmployee,
   deleteEmployee,
   updateEmployee,
+  fetchEmployeeById,
 };

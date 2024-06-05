@@ -14,4 +14,5 @@ router
   .get("/:id", checkToken, userControllers.getEmployeeById)
   .put("/:id", checkToken, userControllers.updateEmployee);
 
+router.get("/groupEmp", checkToken, userControllers.getEmployeesByIdIn);
 module.exports = router;

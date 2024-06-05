@@ -39,7 +39,8 @@ function SignUp() {
 
       const accessToken = response?.data?.token;
       const admin = response?.data?.is_admin;
-      setAuth({ email, password, admin, accessToken });
+      const userId = response?.data?.id;
+      setAuth({ email, admin, accessToken, userId });
       //setCookie("accessToken", accessToken, 1);
       setEmail("");
       setPassword("");

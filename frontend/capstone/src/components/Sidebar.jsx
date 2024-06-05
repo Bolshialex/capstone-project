@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { BsGrid1X2Fill, BsPeopleFill, BsFillGearFill } from "react-icons/bs";
-import { FaPeopleGroup } from "react-icons/fa6";
-import { IoIosSettings } from "react-icons/io";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaChartPie, FaPeopleArrows } from "react-icons/fa";
 import LogoutButton from "./LogoutButton";
@@ -39,16 +37,12 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
             <FaPeopleArrows className="icon" /> Customers
           </li>
         </Link>
-        <li className="sidebar-list-item">
-          <a>
-            <FaPeopleGroup className="icon" /> Meetings
-          </a>
-        </li>
-        <li className="sidebar-list-item">
-          <a>
+
+        <Link className="sidebar-link" to={"/messages"}>
+          <li className="sidebar-list-item">
             <AiOutlineMail className="icon" /> Messages
-          </a>
-        </li>
+          </li>
+        </Link>
       </ul>
       <div>
         <LogoutButton />

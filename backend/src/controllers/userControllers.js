@@ -207,6 +207,21 @@ const getEmployeeById = asyncHandler(async (req, res) => {
   });
 });
 
+const getEmployeesByIdIn = asyncHandler(async (req, res) => {
+  const employeeId = req.body;
+  employeeSchemas.getEmployeesByIdIn(employeeId, (err, result) => {
+    if (err) {
+      res.status(500).json({ error: "Internal Server Error" });
+      console.log(err);
+      return;
+    } else if (result == "") {
+      res.json(`This employee does not exist`);
+      return;
+    }
+    res.json(result);
+  });
+});
+
 module.exports = {
   getEmployee,
   createEmployee,
@@ -218,4 +233,5 @@ module.exports = {
   getCustomerById,
   updateCustomer,
   updateEmployee,
+  getEmployeesByIdIn,
 };

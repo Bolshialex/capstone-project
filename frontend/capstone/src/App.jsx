@@ -19,6 +19,8 @@ import "./App.css";
 import CreateCustomerPage from "./pages/CreateCustomerPage";
 import UpdateCustomerPage from "./pages/UpdateCustomerPage";
 import UpdateEmployeePage from "./pages/UpdateEmployeePage";
+import MessengerPage from "./pages/MessengerPage";
+import SendMessagePage from "./pages/SendMessagePage";
 
 function App() {
   return (
@@ -52,6 +54,9 @@ function App() {
             element={<UpdateEmployeePage />}
             exact
           />
+
+          <Route path="messages/send" element={<SendMessagePage />} exact />
+          <Route path="messages" element={<MessengerPage />} exact />
         </Route>
 
         <Route path="*" />
