@@ -3,13 +3,14 @@ import useAuth from "../hooks/useAuth";
 import chatFunctions from "../api/chatFunctions";
 import conversationFunctions from "../api/conversationFunctions";
 import employeeFunctions from "../api/employeeFunctions";
+import DisplayMessages from "./DisplayMessages";
 import "../App.css";
 
 function Messenger() {
   const auth = useAuth();
   const [employees, setEmployees] = useState([]);
   const [chats, setChats] = useState([]);
-  const [conversation, setConversation] = useState([]);
+  const [selectedChat, setSelectedChat] = useState(null);
 
   useEffect(() => {
     chatFunctions
@@ -36,7 +37,10 @@ function Messenger() {
         {chats &&
           chats.map((chat) => (
             <div key={chat.chat_id} className="contacts-card">
-              <div className="card-content">
+              <div
+                className="card-content"
+                onClick={() => setSelectedChat(chat.chat_id)}
+              >
                 <div className="name">
                   <div className="name">
                     {employees
@@ -58,24 +62,11 @@ function Messenger() {
             </div>
           ))}
       </div>
-      <div className="messages-right">
-        <div className="message-container">
-          <div className="message received">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </div>
-          <div className="message sent">
-            Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </div>
-        </div>
-        <div className="input-container row justify-content-between">
-          <input
-            className="col-9 message-fields"
-            type="text"
-            placeholder="Type your message..."
-          />
-          <button className="col-2 message-fields">Send</button>
-        </div>
-      </div>
+      {selectedChat ? (
+        <DisplayMessages chat_id={selectedChat} />
+      ) : (
+        <div className="no-chat">No chat selected...</div>
+      )}
     </main>
   );
 }
