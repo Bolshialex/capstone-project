@@ -72,3 +72,25 @@ Kept # Documentation Update's
     - Test all areas a user might go to and click. Refresh is something the user will use from time to time and it's important to check for errors in that functionality.
     - Asking for help understanding a problem can go a long way and can help broaden your view on an issue or error you are dealing with.
 
+
+### 3. Week Eight
+
+  Date: June 9, 2024
+  
+  Features Added/Updated Since Last Update
+  
+    - Added independent usability. A new tab means a new user. Implemented session storage instead of local storage for authentication.
+    - Added more UI features for a better user experience. This includes back buttons for touch devices and clickable table columns for quick access to profiles as opposed to smaller 
+      UI buttons.
+    - Added messaging capabilities with socket.io. This involved editing my SQL database and creating more MVC functions to accompany this addition.
+    
+  Issues Encountered
+  
+    - My first implementation of Socket.io was a failure. There was a CORS issue and couldn't find anything online to help me. (FIxed, on the second implementation there was CORS middleware 
+      in the server connection function)
+    - I had some issues when trying to implement the new SQL tables into my front end.
+  Lessons Learned
+  
+    - Sometimes it doesn't hurt to step away from a certain task to have a sort of refresher on the topic when you come back to it. This helped me when implementing my SQL and socket.io 
+      features. Stepping away from thinking about how to structure the tables and just not being so frustrated with the socket.io implementation helped when coming back to implementing it          later.
+    - Using a list of some sort to get an idea of what is left to do before deploying your project helps a lot with creating a schedule or timeline to deploy. 
