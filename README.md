@@ -92,5 +92,5 @@ Kept # Documentation Update's
   Lessons Learned
   
     - Sometimes it doesn't hurt to step away from a certain task to have a sort of refresher on the topic when you come back to it. This helped me when implementing my SQL and socket.io 
-      features. Stepping away from thinking about how to structure the tables and just not being so frustrated with the socket.io implementation helped when coming back to implementing it          later.
+      features. Stepping away from thinking about how to structure the tables and just not being so frustrated with the socket.io implementation helped when coming back to implementing it later.
     - Using a list of some sort to get an idea of what is left to do before deploying your project helps a lot with creating a schedule or timeline to deploy. 
