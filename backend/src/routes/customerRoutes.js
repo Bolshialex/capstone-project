@@ -8,8 +8,6 @@ router
   .get("/", checkToken, userControllers.getCustomer)
   .post("/", checkToken, userControllers.createCustomer);
 
-//Leave update for later
-
 router
   .delete("/:id", checkToken, userControllers.deleteCustomer)
   .get("/:id", checkToken, userControllers.getCustomerById)

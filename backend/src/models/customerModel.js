@@ -1,13 +1,10 @@
 const connectDb = require("../configs/db");
 
 const customerSchemas = {
-  //gets all customers
-  //
   getAllUsers: (callback) => {
     connectDb.query("SELECT * FROM customer", callback);
   },
-  //gets all customers by id
-  //
+
   getCustomerById: (employeeId, callback) => {
     connectDb.query(
       `SELECT * FROM customer WHERE id = ?`,
@@ -15,8 +12,7 @@ const customerSchemas = {
       callback
     );
   },
-  //creates a customer with a hashed password
-  //
+
   createCustomer: (customerInfo, callback) => {
     const query = `INSERT INTO customer (first_name, last_name, phone, email, assigned_agent, is_lead) VALUES (?, ?, ?, ?, ?, ?)`;
     const values = [...customerInfo];

@@ -12,6 +12,12 @@ const conversationSchemas = {
     const values = [chat_id, message_from, message];
     connectDb.query(query, values, callback);
   },
+  updateIsRead: (isReadInfo, callback) => {
+    const query =
+      "UPDATE conversations SET is_read = 1 WHERE chat_id = ? AND message_from = ?";
+    const values = [...isReadInfo];
+    connectDb.query(query, values, callback);
+  },
 };
 
 module.exports = conversationSchemas;

@@ -44,7 +44,7 @@ const updateCustomer = asyncHandler(async (req, res) => {
 
   customerSchemas.updateCustomer(customerId, customerInfo, (err, result) => {
     if (err) {
-      res.status(500).json({ error: err.message }); // Use res.json here
+      res.status(500).json({ error: err.message });
       console.log(err);
       return;
     }

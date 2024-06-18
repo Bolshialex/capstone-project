@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { checkToken } = require("../middlewares/tokenValidation");
-
 const chatControllers = require("../controllers/chatControllers");
 
 router
@@ -10,6 +9,6 @@ router
     checkToken,
     chatControllers.getChatsBySenderOrReceiverId
   )
-  .post("/:sender_id/:receiver_id", checkToken, chatControllers.createChat);
+  .post("/", checkToken, chatControllers.createChat);
 
 module.exports = router;

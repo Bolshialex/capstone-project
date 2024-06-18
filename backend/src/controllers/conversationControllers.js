@@ -1,6 +1,8 @@
 const connectDb = require("../configs/db");
 const conversationSchemas = require("../models/conversationModel");
 
+const io = require("../../server");
+
 connectDb;
 
 const getConversationByChatId = (req, res) => {
@@ -18,6 +20,7 @@ const getConversationByChatId = (req, res) => {
 
 const insertIntoConversation = (req, res) => {
   const { chat_id, message_from, message } = req.body;
+  const messageInfo = { chat_id, message_from, message };
   conversationSchemas.insertIntoConversation(
     { chat_id, message_from, message },
     (err, result) => {
@@ -27,9 +30,25 @@ const insertIntoConversation = (req, res) => {
           .send({ message: "Internal Server Error", err: err.message });
       } else {
         res.status(201).send("Message sent successfully");
+        io.emit("new-message", messageInfo);
       }
     }
   );
 };
 
-module.exports = { getConversationByChatId, insertIntoConversation };
+const updateIsRead = (req, res) => {
+  const isReadInfo = [req.body.message_from, req.body.chat_id];
+  chatSchemas.updateIsRead(isReadInfo, (err, result) => {
+    if (err) {
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).send(result);
+    }
+  });
+};
+
+module.exports = {
+  getConversationByChatId,
+  insertIntoConversation,
+  updateIsRead,
+};

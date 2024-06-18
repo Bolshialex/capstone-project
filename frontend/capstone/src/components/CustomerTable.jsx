@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import customerFunctions from "../api/customerFunctions";
-import { Link } from "react-router-dom";
-import { MdDelete } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { CiEdit } from "react-icons/ci";
+import { IoArrowBackOutline } from "react-icons/io5";
 
 function CustomerTable() {
   const auth = useAuth();
   const [customers, setCustomers] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     customerFunctions
@@ -18,33 +18,25 @@ function CustomerTable() {
       .catch((error) => console.error(error));
   }, []);
 
-  function deleteButton(customerId) {
-    const confirm = window.confirm(
-      "Are you sure you want to delete this event?"
-    );
+  const handle = (cust_id) => {
+    navigate(`update/${cust_id}`);
+  };
 
-    if (confirm) {
-      customerFunctions
-        .deleteCustomer(auth.auth.accessToken, customerId)
-        .then(() => {
-          setCustomers((prevCustomer) =>
-            prevCustomer.filter((customer) => customer.id !== customerId)
-          );
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
-  }
   return (
     <main className="main-container">
-      <div className="main-title">
-        <h3>Customers</h3>
-      </div>
-      <div>
-        <Link to={"create"}>
-          <button>Add Customer</button>
-        </Link>
+      <div className="header-container">
+        <div className="main-title">
+          <IoArrowBackOutline
+            className="back-icon"
+            onClick={() => navigate("/main")}
+          />
+          <h3>Customers</h3>
+        </div>
+        <div>
+          <Link to={"create"}>
+            <button className="btn btn-primary">Add Customer</button>
+          </Link>
+        </div>
       </div>
       <hr />
       <div className="table-wrapper">
@@ -65,7 +57,7 @@ function CustomerTable() {
             {customers &&
               customers.map((customer) =>
                 customer.is_active ? (
-                  <tr key={customer.id}>
+                  <tr key={customer.id} onClick={() => handle(customer.id)}>
                     <th scope="row">{customer.id}</th>
                     <td>{customer.first_name}</td>
                     <td>{customer.last_name}</td>
@@ -77,18 +69,7 @@ function CustomerTable() {
                         : "Agent not assigned"}
                     </td>
                     <td>{customer.is_lead ? "True" : "False"}</td>
-                    <td>
-                      <span>
-                        <Link to={`update/${customer.id}`}>
-                          <CiEdit className="icon m-2" />
-                        </Link>
-
-                        <MdDelete
-                          className="icon m-2"
-                          onClick={() => deleteButton(customer.id)}
-                        />
-                      </span>
-                    </td>
+                    <td></td>
                   </tr>
                 ) : null
               )}

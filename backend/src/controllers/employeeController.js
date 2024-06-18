@@ -69,7 +69,7 @@ const createEmployeeInfo = asyncHandler(async (req, res) => {
           }
         );
       } else {
-        res.status(400).json({ error: "Employee already exists" });
+        res.status(409).json({ error: "Employee already exists" });
       }
     });
   } else {

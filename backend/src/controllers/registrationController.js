@@ -10,7 +10,6 @@ const registerEmployee = asyncHandler(async (req, res) => {
   const { first_name, last_name, user_name, phone, email, password, is_admin } =
     req.body;
 
-  // Check if all required fields are provided
   if (
     !first_name ||
     !last_name ||
@@ -37,13 +36,7 @@ const registerEmployee = asyncHandler(async (req, res) => {
 
     if (result.length === 0) {
       // Register new employee
-      const newEmployeeInfo = {
-        first_name,
-        last_name,
-        user_name,
-        phone,
-        email,
-      };
+      const newEmployeeInfo = [first_name, last_name, user_name, phone, email];
 
       registerSchemas.registerEmployee(
         newEmployeeInfo,
@@ -58,7 +51,7 @@ const registerEmployee = asyncHandler(async (req, res) => {
         }
       );
     } else {
-      res.status(400).json({ error: "Employee already exists" });
+      res.status(409).json({ error: "Employee already exists" });
     }
   });
 });
