@@ -30,6 +30,7 @@ const insertIntoConversation = (req, res) => {
           .send({ message: "Internal Server Error", err: err.message });
       } else {
         res.status(201).send("Message sent successfully");
+        //sends out a signal that a new message has been sent
         io.emit("new-message", messageInfo);
       }
     }

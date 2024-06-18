@@ -53,9 +53,10 @@ function Register() {
         }
       });
   };
-
+  //checks if the password is strong
   const isStrongPassword = (password) => {
     const minLength = 7;
+    //regex
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumbers = /\d/.test(password);
@@ -83,7 +84,9 @@ function Register() {
             )}
             <form onSubmit={handleSubmit}>
               <div className="form-group mb-3">
-                <label htmlFor="first_name">First Name</label>
+                <label className="form-label custom-label" htmlFor="first_name">
+                  First Name
+                </label>
                 <input
                   type="text"
                   id="first_name"
@@ -96,7 +99,9 @@ function Register() {
               </div>
 
               <div className="form-group mb-3">
-                <label htmlFor="last_name">Last Name</label>
+                <label className="form-label custom-label" htmlFor="last_name">
+                  Last Name
+                </label>
                 <input
                   type="text"
                   id="last_name"
@@ -109,7 +114,9 @@ function Register() {
               </div>
 
               <div className="form-group mb-3">
-                <label htmlFor="user_name">Username</label>
+                <label className="form-label custom-label" htmlFor="user_name">
+                  Username
+                </label>
                 <input
                   type="text"
                   id="user_name"
@@ -122,7 +129,9 @@ function Register() {
               </div>
 
               <div className="form-group mb-3">
-                <label htmlFor="phone">Phone Number</label>
+                <label className="form-label custom-label" htmlFor="phone">
+                  Phone Number
+                </label>
                 <input
                   type="text"
                   id="phone"
@@ -135,7 +144,9 @@ function Register() {
               </div>
 
               <div className="form-group mb-3">
-                <label htmlFor="email">Email</label>
+                <label className="form-label custom-label" htmlFor="email">
+                  Email
+                </label>
                 <input
                   type="email"
                   id="email"
@@ -148,7 +159,9 @@ function Register() {
               </div>
 
               <div className="form-group mb-3">
-                <label htmlFor="password">Password</label>
+                <label className="form-label custom-label" htmlFor="password">
+                  Password
+                </label>
                 <input
                   type="password"
                   id="password"
@@ -161,7 +174,12 @@ function Register() {
               </div>
 
               <div className="form-group mb-4">
-                <label htmlFor="repeat_password">Repeat Password</label>
+                <label
+                  className="form-label custom-label"
+                  htmlFor="repeat_password"
+                >
+                  Repeat Password
+                </label>
                 <input
                   type="password"
                   id="repeat_password"
@@ -179,7 +197,7 @@ function Register() {
                 </button>
               </div>
             </form>
-            <p className="mt-3">
+            <p className="mt-3 ">
               Already have an account?{" "}
               <Link to="/" className="text-primary">
                 Login

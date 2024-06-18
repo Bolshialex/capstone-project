@@ -3,13 +3,8 @@ import useAuth from "../hooks/useAuth";
 
 function RequireAuth() {
   const { auth } = useAuth();
-  const location = useLocation();
-
-  return auth?.accessToken ? (
-    <Outlet />
-  ) : (
-    <Navigate to={"/"} state={{ from: location }} replace />
-  );
+  //checks if the user is authenticated else back to login
+  return auth?.accessToken ? <Outlet /> : <Navigate to={"/"} replace />;
 }
 
 export default RequireAuth;

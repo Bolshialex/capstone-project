@@ -1,6 +1,7 @@
 const connectDb = require("../configs/db");
 
 const notificationSchemas = {
+  //gets all unread notifications
   getUnreadMessageCount: (user_id, callback) => {
     const query = `
       SELECT 
@@ -22,7 +23,7 @@ const notificationSchemas = {
     const values = [user_id];
     connectDb.query(query, values, callback);
   },
-
+  //updates a new message to read
   setMessageRead: (chat_id, user_id, callback) => {
     const query = `UPDATE conversations SET is_read = 1 WHERE chat_id = ? AND message_from != ?`;
     const values = [chat_id, user_id];

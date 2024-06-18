@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import employeeFunctions from "../api/employeeFunctions";
 import useAuth from "../hooks/useAuth";
-import {
-  BsFillArchiveFill,
-  BsFillGrid3X3GapFill,
-  BsPeopleFill,
-  BsFillBellFill,
-} from "react-icons/bs";
+import { FaPeopleArrows } from "react-icons/fa";
+import { BsPeopleFill } from "react-icons/bs";
+import { AiOutlineMail } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 function Home() {
   const auth = useAuth();
@@ -26,27 +24,33 @@ function Home() {
       </div>
 
       <div className="main-cards">
-        <div className="card ">
-          <div className="card-inner">
-            <h3>Customers</h3>
-            <BsFillArchiveFill className="card_icon" />
+        <Link className="sidebar-link" to={"/customers"}>
+          <div className="card ">
+            <div className="card-inner">
+              <h3>Customers</h3>
+              <FaPeopleArrows className="card_icon" />
+            </div>
+            <h1></h1>
           </div>
-          <h1></h1>
-        </div>
-        <div className="card">
-          <div className="card-inner">
-            <h3>Employees</h3>
-            <BsFillGrid3X3GapFill className="card_icon" />
+        </Link>
+        <Link className="sidebar-link" to={"/employees"}>
+          <div className="card">
+            <div className="card-inner">
+              <h3>Employees</h3>
+              <BsPeopleFill className="card_icon" />
+            </div>
+            <h1></h1>
           </div>
-          <h1></h1>
-        </div>
-        <div className="card">
-          <div className="card-inner">
-            <h3>Messages</h3>
-            <BsPeopleFill className="card_icon" />
+        </Link>
+        <Link className="sidebar-link" to={"/messages"}>
+          <div className="card">
+            <div className="card-inner">
+              <h3>Messages</h3>
+              <AiOutlineMail className="card_icon" />
+            </div>
+            <h1></h1>
           </div>
-          <h1></h1>
-        </div>
+        </Link>
       </div>
     </main>
   );

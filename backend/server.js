@@ -33,17 +33,17 @@ app.use(limiter);
 
 const server = http.createServer(app);
 
+//connects to the socket
+//calls a user connected and disconnected
 const io = setupSocket(server);
 
+//export to conversationControllers
 module.exports = io;
 
 app.use("/employee", require("./src/routes/employeeRoutes"));
 app.use("/customer", require("./src/routes/customerRoutes"));
-app.use("/meeting", require("./src/routes/meetingRoutes.js"));
 app.use("/register", require("./src/routes/registrationRoutes.js"));
 app.use("/login", require("./src/routes/loginRoutes.js"));
-app.use("/refresh", require("./src/routes/refreshRoutes.js"));
-app.use("/message", require("./src/routes/messageRoutes.js"));
 app.use("/chat", require("./src/routes/chatRoutes.js"));
 app.use("/notification", require("./src/routes/notificationRoutes.js"));
 app.use("/conversation", require("./src/routes/conversationRoutes.js"));

@@ -92,10 +92,18 @@ function SendMessage() {
                         employees.map((employee) =>
                           employee.is_active &&
                           employee.id !== auth.auth.userId ? (
-                            <option key={employee.id} value={employee.id}>
-                              ID: {employee.id} Name: {employee.first_name}{" "}
-                              {employee.last_name}
-                            </option>
+                            employee.is_admin ? (
+                              <option key={employee.id} value={employee.id}>
+                                ID: {employee.id} Name: {employee.first_name}
+                                {employee.last_name}
+                                {" (Admin)"}
+                              </option>
+                            ) : (
+                              <option key={employee.id} value={employee.id}>
+                                ID: {employee.id} Name: {employee.first_name}{" "}
+                                {employee.last_name}
+                              </option>
+                            )
                           ) : null
                         )}
                     </select>

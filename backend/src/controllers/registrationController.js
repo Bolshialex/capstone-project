@@ -22,20 +22,20 @@ const registerEmployee = asyncHandler(async (req, res) => {
     throw new Error("Please add all fields");
   }
 
-  // Hash password
+  // hash password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  // Check if employee already exists
+  // check if employee already exists
   employeeSchemas.getEmployeeByEmail(email, async (err, result) => {
     if (err) {
       res.status(500).json({ error: "Internal Server Error" });
       console.error(err);
       return;
     }
-
+    // true if employee does not exist
     if (result.length === 0) {
-      // Register new employee
+      // register new employee
       const newEmployeeInfo = [first_name, last_name, user_name, phone, email];
 
       registerSchemas.registerEmployee(

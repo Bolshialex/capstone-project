@@ -16,7 +16,6 @@ function SignUp() {
   const [password, setPassword] = useState("");
 
   const userRef = useRef();
-  const errRef = useRef();
 
   const [err, setErr] = useState("");
 
@@ -35,13 +34,11 @@ function SignUp() {
         email,
         password,
       });
-      //await loginFunction.login(email, password);
 
       const accessToken = response?.data?.token;
       const admin = response?.data?.is_admin;
       const userId = response?.data?.id;
       setAuth({ email, admin, accessToken, userId });
-      //setCookie("accessToken", accessToken, 1);
       setEmail("");
       setPassword("");
       navigate("/main");
@@ -80,7 +77,10 @@ function SignUp() {
                     {err}
                   </div>
                 )}
-                <label className="form-label" htmlFor="form3Example3">
+                <label
+                  className="form-label custom-label"
+                  htmlFor="form3Example3"
+                >
                   Email address
                 </label>
                 <input
@@ -97,7 +97,10 @@ function SignUp() {
               </div>
 
               <div data-mdb-input-init className="form-outline mb-3">
-                <label className="form-label" htmlFor="form3Example4">
+                <label
+                  className="form-label custom-label"
+                  htmlFor="form3Example4"
+                >
                   Password
                 </label>
                 <input
@@ -116,7 +119,7 @@ function SignUp() {
                   type="submit"
                   data-mdb-button-init
                   data-mdb-ripple-init
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg w-100"
                 >
                   Login
                 </button>

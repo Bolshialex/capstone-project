@@ -9,6 +9,7 @@ import { IoArrowBackOutline } from "react-icons/io5";
 //fix creating a employee that has an email already
 function CreateNewEmployee() {
   const navigate = useNavigate();
+  const [err, setErr] = useState(null);
   const auth = useAuth();
   const [formData, setFormData] = useState({
     first_name: "",
@@ -30,11 +31,41 @@ function CreateNewEmployee() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    setErr(null);
+    if (!isStrongPassword(formData.password)) {
+      setErr(
+        "Password must contain at least 7 characters, one uppercase letter, one lowercase letter, one number, and one special character"
+      );
+      return;
+    }
     employeeFunctions
       .createNewEmployee(auth.auth.accessToken, formData)
-      .then(navigate("/employees"))
-      .catch((err) => console.error(err));
+      .then(() => navigate("/employees"))
+      .catch((err) => {
+        if (err.response && err.response.status === 409) {
+          setErr("Employee already exists");
+        } else {
+          console.error(err);
+        }
+      });
+  };
+
+  //checks if the password is strong
+  const isStrongPassword = (password) => {
+    const minLength = 7;
+    //regex
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+
+    return (
+      password.length >= minLength &&
+      hasUpperCase &&
+      hasLowerCase &&
+      hasNumbers &&
+      hasSpecial
+    );
   };
 
   return (
@@ -51,7 +82,11 @@ function CreateNewEmployee() {
               <h3>Employee Profile</h3>
               <hr />
             </div>
-
+            {err && (
+              <div className="alert alert-danger text-center" role="alert">
+                {err}
+              </div>
+            )}
             <form
               className="file-upload form-container"
               onSubmit={handleSubmit}
