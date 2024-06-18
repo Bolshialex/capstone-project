@@ -35,4 +35,23 @@ function sendMessage(token, { chat_id, message_from, message }) {
     });
 }
 
-export default { getConversationById, sendMessage };
+function updateIsRead(token, { chat_id, message_from }) {
+  return axios
+    .put(
+      `${API_URL}/conversation`,
+      { chat_id, message_from },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error updating isRead:", error.message);
+      throw error;
+    });
+}
+
+export default { getConversationById, sendMessage, updateIsRead };

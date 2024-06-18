@@ -7,8 +7,6 @@ router
   .get("/", checkToken, userControllers.getEmployee)
   .post("/", checkToken, userControllers.createEmployee);
 
-//Leave update for later
-
 router
   .delete("/:id", checkToken, userControllers.deleteEmployee)
   .get("/:id", checkToken, userControllers.getEmployeeById)

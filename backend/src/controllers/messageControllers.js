@@ -1,6 +1,5 @@
 const connectDb = require("../configs/db");
 const messageSchemas = require("../models/messageModel");
-const messageService = require("../service/messageService");
 
 connectDb;
 

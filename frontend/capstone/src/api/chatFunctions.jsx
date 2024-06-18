@@ -16,9 +16,9 @@ function getChats(token, { sender_id, receiver_id }) {
     });
 }
 
-function createChat(token, { sender_id, receiver_id }) {
+function createChat(token, chatInfo) {
   return axios
-    .post(`${API_URL}/cha/${sender_id}/${receiver_id}`, {
+    .post(`${API_URL}/chat`, chatInfo, {
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${token}`,

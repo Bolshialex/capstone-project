@@ -1,9 +1,9 @@
 const connectDb = require("../configs/db");
 
 const chatSchemas = {
-  createChat: ({ receiver_id, sender_id }, callback) => {
+  createChat: (chatInfo, callback) => {
     const query = "INSERT INTO chats (receiver_id, sender_id) VALUES (?, ?)";
-    const values = [receiver_id, sender_id];
+    const values = [...chatInfo];
     connectDb.query(query, values, callback);
   },
   getChatsBySenderOrReceiverId: ({ sender_id, receiver_id }, callback) => {
